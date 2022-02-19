@@ -1,3 +1,4 @@
+*.idea/*
 *.o
 # Created by https://www.toptal.com/developers/gitignore/api/visualstudio,rider,intellij
 # Edit at https://www.toptal.com/developers/gitignore?templates=visualstudio,rider,intellij
