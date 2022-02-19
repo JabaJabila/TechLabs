@@ -29,7 +29,7 @@ public class SimpleDirectedGraph<T>
         return this;
     }
 
-    public void RemoveNode(DirectedVertex<T> node)
+    public void removeNode(DirectedVertex<T> node)
     {
         _nodes.remove(node);
     }
