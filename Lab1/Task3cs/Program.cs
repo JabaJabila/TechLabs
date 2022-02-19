@@ -1,6 +1,6 @@
 ﻿using SimpleGraphDotNET.DirectedGraph;
 
-namespace Task3dotNet;
+namespace Task3cs;
 internal class Program
 {
     internal static void Main()
