@@ -1,4 +1,10 @@
-﻿namespace Trr
+﻿open SomeFunctions
 
-module test =
-    printf "Hello from F#"
+let house = SomeFunctions.HouseBuilder.HouseBuilder()
+
+printfn "%A" <| house { () }
+
+printfn "%A" <| house{ 
+                    floor SomeFunctions.HouseBuilder.SingleFloor
+                    chimney
+                    }

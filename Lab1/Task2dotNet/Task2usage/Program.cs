@@ -17,5 +17,19 @@ public class Program
         Console.WriteLine(SimpleShapes.Area(SimpleShapes.Shape.NewTriangle(triangle)));
         Console.WriteLine(SimpleShapes.Area(SimpleShapes.Shape.NewRectangle(rectangle)));
         Console.WriteLine(SimpleShapes.Area(SimpleShapes.Shape.NewCircle(circle)));
+
+        Console.WriteLine();
+        var house = new HouseBuilder.HouseBuilder();
+        var baseHouse = HouseBuilder.baseHouse;
+        Console.WriteLine(HouseBuilder.baseHouse);
+
+        // House with single floor and chimney
+        Console.WriteLine(house.Floor(house.Chimney(baseHouse), HouseBuilder.Floor.SingleFloor));
+
+        // Stone house with single floor and chimney
+        Console.WriteLine(
+            house.Floor(
+                house.Material(house.Chimney(baseHouse), HouseBuilder.Material.Stone),
+                HouseBuilder.Floor.SingleFloor));
     }
 }

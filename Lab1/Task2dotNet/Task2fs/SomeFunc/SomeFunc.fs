@@ -32,3 +32,47 @@ module ListOperations =
         
     let PrintSquaredEven (start : int) (stop : int) = printf "%A\n" <| SquaredEven start stop
     let PrintTripledOdd (start : int) (stop : int) = printf "%A\n" <| TripledOdd start stop
+
+module HouseBuilder =
+    type Floor =
+        | SingleFloor
+        | DoubleFloor
+        | TripleFloor
+
+    type Material =
+        | Wood
+        | Stone
+        | Brick
+
+    type Roof =
+        | Wood
+        | Metal
+        | Tile
+
+    type House =
+        { Floor : Floor
+          Material : Material
+          Roof : Roof
+          Chimney : bool }
+
+    let baseHouse = 
+        { Floor = DoubleFloor
+          Material = Brick
+          Roof = Tile
+          Chimney = false }
+
+    type HouseBuilder() =
+        member _.Zero _ = baseHouse
+        member _.Yield _ = baseHouse
+
+        [<CustomOperation("floor")>]
+        member _.Floor(house, floor) = { house with Floor = floor } 
+
+        [<CustomOperation("material")>]
+        member _.Material(house, material) = { house with Material = material } 
+
+        [<CustomOperation("roof")>]
+        member _.Roof(house, roof) = { house with Roof = roof }
+        
+        [<CustomOperation("chimney")>]
+        member _.Chimney(house) = { house with Chimney = true }
