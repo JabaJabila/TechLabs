@@ -1,54 +1,55 @@
 ﻿using BenchmarkDotNet.Attributes;
 
-namespace Task4cs.Benchmark
+namespace Task4cs.Benchmark;
+
+[MemoryDiagnoser]
+public class SortBenchmark
 {
-    [MemoryDiagnoser]
-    public class SortBenchmark
+    public int[] ArrayToBenchmark { get; set; }
+
+    [Params(1000, 5000, 10000, 50000, 100000)]
+    public int Length { get; set; }
+
+    [GlobalSetup]
+    public void ArrayAlloc()
     {
-        private int _listLength;
-        public List<int> ListToBenchmark { get; set; }
+        ArrayToBenchmark = new int[Length];
+    }
 
-        [Params(100, 1000, 10000, 100000)]
-        public int ListLength
-        {
-            get => _listLength;
-            set
-            {
-                _listLength = value;
-                ListToBenchmark = ListGen(value);
-            }
-        }
+    [IterationSetup]
+    public void ArrayGen()
+    {
+        var rnd = new Random(Guid.NewGuid().GetHashCode());
+        for (int i = 0; i < Length; i++) ArrayToBenchmark[i] = rnd.Next();
+    }
+        
+        
+    [WarmupCount(1)]
+    [IterationCount(3)]
+    [Benchmark]
+    public void BubbleSort()
+    {
+        SortAlgorithms.BubbleSort.Sort(ArrayToBenchmark);
+    }
 
-        [Benchmark]
-        public void BubbleSort()
-        {
-            SortAlgorithms.BubbleSort.Sort(ListToBenchmark);
-        }
+    [WarmupCount(1)]
+    [Benchmark]
+    public void MergeSort()
+    {
+        SortAlgorithms.MergeSort.Sort(ArrayToBenchmark);
+    }
 
-        [Benchmark]
-        public void MergeSort()
-        {
-            SortAlgorithms.MergeSort.Sort(ListToBenchmark);
-        }
+    [WarmupCount(1)]
+    [Benchmark]
+    public void QuickSort()
+    {
+        SortAlgorithms.QuickSort.Sort(ArrayToBenchmark);
+    }
 
-        [Benchmark]
-        public void QuickSort()
-        {
-            SortAlgorithms.QuickSort.Sort(ListToBenchmark);
-        }
-
-        [Benchmark]
-        public void StandardSort()
-        {
-            ListToBenchmark.Sort();
-        }
-
-        public static List<int> ListGen(int n)
-        {
-            var list = new List<int>();
-            var rnd = new Random(Guid.NewGuid().GetHashCode());
-            for (int i = 0; i < n; i++) list.Add(rnd.Next() % 100);
-            return list;
-        }
+    [WarmupCount(1)]
+    [Benchmark]
+    public void StandardSort()
+    {
+        Array.Sort(ArrayToBenchmark);
     }
 }

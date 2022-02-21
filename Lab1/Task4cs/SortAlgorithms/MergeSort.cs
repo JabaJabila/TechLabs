@@ -1,58 +1,57 @@
-﻿namespace Task4cs.SortAlgorithms
+﻿namespace Task4cs.SortAlgorithms;
+
+public class MergeSort
 {
-    public class MergeSort
+    private static void Merge(int[] array, int minIndex, int middleIndex, int maxIndex)
     {
-        private static void Merge(List<int> list, int minIndex, int middleIndex, int maxIndex)
+        int left = minIndex;
+        int right = middleIndex + 1;
+        var temp = new int[maxIndex - minIndex + 1];
+        int ind = 0;
+
+        while (left <= middleIndex && right <= maxIndex)
         {
-            int left = minIndex;
-            int right = middleIndex + 1;
-            var temp = new int[maxIndex - minIndex + 1];
-            int ind = 0;
-
-            while (left <= middleIndex && right <= maxIndex)
+            if (array[left] < array[right])
             {
-                if (list[left] < list[right])
-                {
-                    temp[ind] = list[left];
-                    left++;
-                }
-                else
-                {
-                    temp[ind] = list[right];
-                    right++;
-                }
-                ind++;
+                temp[ind] = array[left];
+                left++;
             }
-
-            for (var i = left; i <= middleIndex; i++)
+            else
             {
-                temp[ind] = list[i];
-                ind++;
+                temp[ind] = array[right];
+                right++;
             }
-
-            for (var i = right; i <= maxIndex; i++)
-            {
-                temp[ind] = list[i];
-                ind++;
-            }
-
-            for (var i = 0; i < temp.Length; i++)
-                list[minIndex + i] = temp[i];
+            ind++;
         }
 
-        private static List<int> MergeSortStep(List<int> list, int minIndex, int maxIndex)
+        for (var i = left; i <= middleIndex; i++)
         {
-            if (minIndex >= maxIndex) return list;
-            var middleIndex = (minIndex + maxIndex) / 2;
-            MergeSortStep(list, minIndex, middleIndex);
-            MergeSortStep(list, middleIndex + 1, maxIndex);
-            Merge(list, minIndex, middleIndex, maxIndex);
-            return list;
+            temp[ind] = array[i];
+            ind++;
         }
 
-        public static void Sort(List<int> list)
+        for (var i = right; i <= maxIndex; i++)
         {
-            MergeSortStep(list, 0, list.Count - 1);
+            temp[ind] = array[i];
+            ind++;
         }
+
+        for (var i = 0; i < temp.Length; i++)
+            array[minIndex + i] = temp[i];
+    }
+
+    private static int[] MergeSortStep(int[] array, int minIndex, int maxIndex)
+    {
+        if (minIndex >= maxIndex) return array;
+        var middleIndex = (minIndex + maxIndex) / 2;
+        MergeSortStep(array, minIndex, middleIndex);
+        MergeSortStep(array, middleIndex + 1, maxIndex);
+        Merge(array, minIndex, middleIndex, maxIndex);
+        return array;
+    }
+
+    public static void Sort(int[] array)
+    {
+        MergeSortStep(array, 0, array.Length - 1);
     }
 }

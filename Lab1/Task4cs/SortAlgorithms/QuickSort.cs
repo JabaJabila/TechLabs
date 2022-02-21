@@ -1,34 +1,33 @@
-﻿namespace Task4cs.SortAlgorithms
+﻿namespace Task4cs.SortAlgorithms;
+
+public class QuickSort
 {
-    public class QuickSort
+    private static int SplitParts(int[] array, int minIndex, int maxIndex)
     {
-        private static int SplitParts(List<int> list, int minIndex, int maxIndex)
-        {
-            var baseEl = minIndex - 1;
-            for (var i = minIndex; i < maxIndex; i++)
-                if (list[i] < list[maxIndex])
-                {
-                    baseEl++;
-                    (list[baseEl], list[i]) = (list[i], list[baseEl]);
-                }
+        var baseEl = minIndex - 1;
+        for (var i = minIndex; i < maxIndex; i++)
+            if (array[i] < array[maxIndex])
+            {
+                baseEl++;
+                (array[baseEl], array[i]) = (array[i], array[baseEl]);
+            }
 
-            baseEl++;
-            (list[baseEl], list[maxIndex]) = (list[maxIndex], list[baseEl]);
-            return baseEl;
-        }
+        baseEl++;
+        (array[baseEl], array[maxIndex]) = (array[maxIndex], array[baseEl]);
+        return baseEl;
+    }
 
-        private static List<int> QuickSortStep(List<int> list, int minIndex, int maxIndex)
-        {
-            if (minIndex >= maxIndex) return list;
-            var pivotIndex = SplitParts(list, minIndex, maxIndex);
-            QuickSortStep(list, minIndex, pivotIndex - 1);
-            QuickSortStep(list, pivotIndex + 1, maxIndex);
-            return list;
-        }
+    private static int[] QuickSortStep(int[] array, int minIndex, int maxIndex)
+    {
+        if (minIndex >= maxIndex) return array;
+        var pivotIndex = SplitParts(array, minIndex, maxIndex);
+        QuickSortStep(array, minIndex, pivotIndex - 1);
+        QuickSortStep(array, pivotIndex + 1, maxIndex);
+        return array;
+    }
 
-        public static void Sort(List<int> list)
-        {
-            QuickSortStep(list, 0, list.Count - 1);
-        }
+    public static void Sort(int[] array)
+    {
+        QuickSortStep(array, 0, array.Length - 1);
     }
 }
