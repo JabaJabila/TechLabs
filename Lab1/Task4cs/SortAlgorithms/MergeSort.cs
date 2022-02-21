@@ -2,6 +2,11 @@
 
 public class MergeSort
 {
+    public static void Sort(int[] array)
+    {
+        MergeSortStep(array, 0, array.Length - 1);
+    }
+
     private static void Merge(int[] array, int minIndex, int middleIndex, int maxIndex)
     {
         int left = minIndex;
@@ -48,10 +53,5 @@ public class MergeSort
         MergeSortStep(array, middleIndex + 1, maxIndex);
         Merge(array, minIndex, middleIndex, maxIndex);
         return array;
-    }
-
-    public static void Sort(int[] array)
-    {
-        MergeSortStep(array, 0, array.Length - 1);
     }
 }

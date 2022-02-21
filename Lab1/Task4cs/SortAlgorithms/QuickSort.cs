@@ -2,6 +2,11 @@
 
 public class QuickSort
 {
+    public static void Sort(int[] array)
+    {
+        QuickSortStep(array, 0, array.Length - 1);
+    }
+
     private static int SplitParts(int[] array, int minIndex, int maxIndex)
     {
         var baseEl = minIndex - 1;
@@ -24,10 +29,5 @@ public class QuickSort
         QuickSortStep(array, minIndex, pivotIndex - 1);
         QuickSortStep(array, pivotIndex + 1, maxIndex);
         return array;
-    }
-
-    public static void Sort(int[] array)
-    {
-        QuickSortStep(array, 0, array.Length - 1);
     }
 }
