@@ -5,8 +5,6 @@ import benchmark.MySortBenchmark;
 
 public class Main {
     public static void main(String[] args)
-//            throws Exception {
-//        org.openjdk.jmh.Main.main(args);
     {
         var bench = new MySortBenchmark();
         int[] sizes = {1000, 5000, 10000, 50000, 100000};

@@ -29,13 +29,13 @@ public class MergeSort
             ind++;
         }
 
-        for (var i = left; i <= middleIndex; i++)
+        for (var i = right; i <= maxIndex; i++)
         {
             temp[ind] = array[i];
             ind++;
         }
 
-        for (var i = right; i <= maxIndex; i++)
+        for (var i = left; i <= middleIndex; i++)
         {
             temp[ind] = array[i];
             ind++;

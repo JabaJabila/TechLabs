@@ -1,7 +1,6 @@
 package benchmark;
 
 import SortAlgorithms.ISort;
-
 import java.lang.management.ManagementFactory;
 import java.lang.management.MemoryMXBean;
 import java.util.Random;

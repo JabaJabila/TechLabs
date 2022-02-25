@@ -43,6 +43,3 @@ package SomeFunctions {
     }
   }
 }
-
-
-// javap -c .\target\scala-2.13\classes\SomeFunctions\SimpleShapes$.class >> MyClass.txt
