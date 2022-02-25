@@ -800,6 +800,30 @@ public static class Rectangle$ extends AbstractFunction2<Object, Object, SimpleS
 
 Таким образом выглядит train (аналог DU) и pattern matching. 
 ```java
+public final class SimpleShapes
+{
+    public static double Area(final SimpleShapes.Shape shape) {
+        return SimpleShapes$.MODULE$.Area(shape);
+    }
+    
+    public static class Rectangle implements SimpleShapes.Shape, Product, Serializable
+    {
+        private final double Height;
+        private final double Width;
+        
+        public Iterator<String> productElementNames() {
+            return (Iterator<String>)Product.productElementNames$((Product)this);
+        }
+        
+        public double Height() {
+            return this.Height;
+        }
+        
+        public double Width() {
+            return this.Width;
+        }
+    ...
+
 public final class SimpleShapes$
 {
     public static final SimpleShapes$ MODULE$;
