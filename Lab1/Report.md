@@ -591,6 +591,8 @@ Pipe операторы превращаются в два класса. Выз�
     public static FSharpList<double> SquaredEven(int start, int stop)
         {
             return ListModule.Map(SquaredEven@23.@_instance, ListModule.Where(SquaredEven@22-1.@_instance, SeqModule.ToList(Operators.CreateSequence(Operators.OperatorIntrinsics.RangeInt32(start, 1, stop)))));
+            ...
+        }
 ```
 
 Классы (record) преобразуются в подобные классы, реализующие множество интерфейсов.
@@ -602,6 +604,9 @@ public sealed class Rectangle : IEquatable<Rectangle>, IStructuralEquatable, ICo
  
             [DebuggerBrowsable(DebuggerBrowsableState.Never)]
             internal double Height@;
+
+            ...
+        }
 ```
 
 Discriminated union преварщается в абстрактный класс, кторые содержит в себе классы фигур, наследующие абстрактный класс. Поэтому для вызова Area у Shape необходимо создать Shape Rectangle (например), создав отдельный Rectangle и вызвав метод у класса Shape NewRectangle создадим экзампляр класса Rectangle, вложенного в класс Shape.
@@ -656,8 +661,6 @@ public abstract class Shape : IEquatable<Shape>, IStructuralEquatable, IComparab
                 Shape.Triangle triangle = (Shape.Triangle)shape;
                 return triangle.item.Base@ * triangle.item.Height@ / 2.0;
         }
-    
- 
 ```
 ---
 
@@ -912,7 +915,7 @@ public final class SomeFunc$
 
 ## Заключение
 
-Поскольку .NET и JVM позволяют нескольким, на первый взгляд даже не похожим языкам, взаимодействовать друг с другом, поскольку программный код компилируется в единый байт-код (JVM) b IL-код(.NET).
+Поскольку .NET и JVM позволяют нескольким, на первый взгляд даже не похожим языкам, взаимодействовать друг с другом, поскольку программный код компилируется в единый байт-код (JVM) и IL-код(.NET).
 
 ---
 
