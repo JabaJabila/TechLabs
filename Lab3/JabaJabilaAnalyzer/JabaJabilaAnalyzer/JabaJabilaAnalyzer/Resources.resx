@@ -117,16 +117,25 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AnalyzerDescription" xml:space="preserve">
-    <value>Type names should be all uppercase.</value>
+  <data name="JABA0001Description" xml:space="preserve">
+    <value>Check if null should be performed with 'is' keyword.</value>
     <comment>An optional longer localizable description of the diagnostic.</comment>
   </data>
-  <data name="AnalyzerMessageFormat" xml:space="preserve">
-    <value>Type name '{0}' contains lowercase letters</value>
+  <data name="JABA0001Format" xml:space="preserve">
+    <value>Expression '{0}' checks on null with '==' operator</value>
     <comment>The format-able message the diagnostic displays.</comment>
   </data>
-  <data name="AnalyzerTitle" xml:space="preserve">
-    <value>Type name contains lowercase letters</value>
+  <data name="JABA0001Title" xml:space="preserve">
+    <value>Wrong way to compare with null</value>
     <comment>The title of the diagnostic.</comment>
+  </data>
+  <data name="JABA0002Description" xml:space="preserve">
+    <value>Check if not null should be performed with 'is not' keywords.</value>
+  </data>
+  <data name="JABA0002Format" xml:space="preserve">
+    <value>Expression '{0}' checks on not null with '!=' operator</value>
+  </data>
+  <data name="JABA0002Title" xml:space="preserve">
+    <value>Wrong way to compere with null</value>
   </data>
 </root>

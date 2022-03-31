@@ -11,12 +11,12 @@ using System.Threading;
 namespace JabaJabilaAnalyzer
 {
     [DiagnosticAnalyzer(LanguageNames.CSharp)]
-    public class IsNullComparisonAnalyzer : DiagnosticAnalyzer
+    public class IsNotNullComparisonAnalyzer : DiagnosticAnalyzer
     {
-        public const string DiagnosticId = "JABA0001";
-        private static readonly LocalizableString Title = new LocalizableResourceString(nameof(Resources.JABA0001Title), Resources.ResourceManager, typeof(Resources));
-        private static readonly LocalizableString MessageFormat = new LocalizableResourceString(nameof(Resources.JABA0001Format), Resources.ResourceManager, typeof(Resources));
-        private static readonly LocalizableString Description = new LocalizableResourceString(nameof(Resources.JABA0001Description), Resources.ResourceManager, typeof(Resources));
+        public const string DiagnosticId = "JABA0002";
+        private static readonly LocalizableString Title = new LocalizableResourceString(nameof(Resources.JABA0002Title), Resources.ResourceManager, typeof(Resources));
+        private static readonly LocalizableString MessageFormat = new LocalizableResourceString(nameof(Resources.JABA0002Format), Resources.ResourceManager, typeof(Resources));
+        private static readonly LocalizableString Description = new LocalizableResourceString(nameof(Resources.JABA0002Description), Resources.ResourceManager, typeof(Resources));
         private const string Category = "Comparison";
 
         private static readonly DiagnosticDescriptor Rule = new DiagnosticDescriptor(DiagnosticId, Title, MessageFormat, Category, DiagnosticSeverity.Warning, isEnabledByDefault: true, description: Description);
@@ -27,16 +27,16 @@ namespace JabaJabilaAnalyzer
         {
             context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.Analyze | GeneratedCodeAnalysisFlags.ReportDiagnostics);
             context.EnableConcurrentExecution();
-            context.RegisterSyntaxNodeAction(Analyze,SyntaxKind.EqualsExpression);
+            context.RegisterSyntaxNodeAction(Analyze, SyntaxKind.NotEqualsExpression);
         }
 
         private static void Analyze(SyntaxNodeAnalysisContext context)
         {
             var node = context.Node;
-            if (!(node is BinaryExpressionSyntax equalsNode &&
-                equalsNode.OperatorToken.IsKind(SyntaxKind.EqualsEqualsToken) &&
-                equalsNode.Right.IsKind(SyntaxKind.NullLiteralExpression))) return;
-            
+            if (!(node is BinaryExpressionSyntax notEqualsNode &&
+                notEqualsNode.OperatorToken.IsKind(SyntaxKind.ExclamationEqualsToken) &&
+                notEqualsNode.Right.IsKind(SyntaxKind.NullLiteralExpression))) return;
+
             var diagnostic = Diagnostic.Create(Rule, node.GetLocation(), node.ToString());
             context.ReportDiagnostic(diagnostic);
         }
