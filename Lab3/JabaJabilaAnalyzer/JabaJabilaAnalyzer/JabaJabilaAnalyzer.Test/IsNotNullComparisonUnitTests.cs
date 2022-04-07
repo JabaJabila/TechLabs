@@ -5,7 +5,7 @@ using Microsoft.CodeAnalysis.Testing;
 using Microsoft.CodeAnalysis.Text;
 using VerifyCS = JabaJabilaAnalyzer.Test.CSharpCodeFixVerifier<
     JabaJabilaAnalyzer.IsNotNullComparisonAnalyzer,
-    JabaJabilaAnalyzer.IsNullComparisonAnalyzerCodeFixProvider>;
+    JabaJabilaAnalyzer.IsNotNullComparisonAnalyzerCodeFixProvider>;
 
 namespace JabaJabilaAnalyzer.Test
 {
@@ -14,7 +14,7 @@ namespace JabaJabilaAnalyzer.Test
     {
         //No diagnostics expected to show up
         [TestMethod]
-        public async Task NoCodeNoDiagnostics()
+        public async Task NoCode_NoDiagnostics()
         {
             var test = @"";
 
@@ -22,7 +22,7 @@ namespace JabaJabilaAnalyzer.Test
         }
 
         [TestMethod]
-        public async Task StringIsNullOrEmptyNoDiagnosticsNeeded()
+        public async Task StringIsNullOrEmpty_NoDiagnosticsNeeded()
         {
             var test = @"
     using System;
@@ -50,7 +50,7 @@ namespace JabaJabilaAnalyzer.Test
 
         //Diagnostic and CodeFix both triggered and checked for
         [TestMethod]
-        public async Task IfStatementNotEqualsNullCheck()
+        public async Task IfStatement_NotEqualsNullCheck()
         {
             var test = @"
     using System;
@@ -88,7 +88,8 @@ namespace JabaJabilaAnalyzer.Test
         {
             public bool Bruh() 
             {
-                if (new Test() is null)
+                var s = string.Empty;
+                if (s is not null)
                     return true;
                 return false;
             }
@@ -97,8 +98,7 @@ namespace JabaJabilaAnalyzer.Test
             // /0/Test0.cs(16,21): warning JABA0001: Expression 's == null' checks on null with '==' operator
             // VerifyCS.Diagnostic().WithSpan(16, 21, 16, 30).WithArguments("s == null")
             var diagnosticResult = new DiagnosticResult("JABA0002", DiagnosticSeverity.Warning).WithSpan(16, 21, 16, 30);
-            await VerifyCS.VerifyAnalyzerAsync(test, diagnosticResult);
-            // await VerifyCS.VerifyCodeFixAsync(test, expected, fixtest);
+            await VerifyCS.VerifyCodeFixAsync(test, diagnosticResult, fixtest);
         }
     }
 }

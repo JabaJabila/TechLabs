@@ -20,7 +20,6 @@ namespace JabaJabilaAnalyzer
         private const string Category = "Comparison";
 
         private static readonly DiagnosticDescriptor Rule = new DiagnosticDescriptor(DiagnosticId, Title, MessageFormat, Category, DiagnosticSeverity.Warning, isEnabledByDefault: true, description: Description);
-
         public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => ImmutableArray.Create(Rule);
 
         public override void Initialize(AnalysisContext context)
@@ -35,7 +34,7 @@ namespace JabaJabilaAnalyzer
             var node = context.Node;
             if (!(node is BinaryExpressionSyntax notEqualsNode &&
                 notEqualsNode.OperatorToken.IsKind(SyntaxKind.ExclamationEqualsToken) &&
-                notEqualsNode.Right.IsKind(SyntaxKind.NullLiteralExpression))) return;
+                (notEqualsNode.Right.IsKind(SyntaxKind.NullLiteralExpression) || notEqualsNode.Left.IsKind(SyntaxKind.NullLiteralExpression)))) return;
 
             var diagnostic = Diagnostic.Create(Rule, node.GetLocation(), node.ToString());
             context.ReportDiagnostic(diagnostic);

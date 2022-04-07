@@ -35,7 +35,8 @@ namespace JabaJabilaAnalyzer
             var node = context.Node;
             if (!(node is BinaryExpressionSyntax equalsNode &&
                 equalsNode.OperatorToken.IsKind(SyntaxKind.EqualsEqualsToken) &&
-                equalsNode.Right.IsKind(SyntaxKind.NullLiteralExpression))) return;
+                (equalsNode.Right.IsKind(SyntaxKind.NullLiteralExpression) || equalsNode.Left.IsKind(SyntaxKind.NullLiteralExpression))))
+                return;
             
             var diagnostic = Diagnostic.Create(Rule, node.GetLocation(), node.ToString());
             context.ReportDiagnostic(diagnostic);

@@ -61,11 +61,20 @@ namespace JabaJabilaAnalyzer {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Make uppercase.
+        ///   Ищет локализованную строку, похожую на Check by using is null.
         /// </summary>
-        internal static string CodeFixTitle {
+        internal static string JABA0001Fix {
             get {
-                return ResourceManager.GetString("CodeFixTitle", resourceCulture);
+                return ResourceManager.GetString("JABA0001Fix", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на .
+        /// </summary>
+        internal static string JABA0002Fix {
+            get {
+                return ResourceManager.GetString("JABA0002Fix", resourceCulture);
             }
         }
     }

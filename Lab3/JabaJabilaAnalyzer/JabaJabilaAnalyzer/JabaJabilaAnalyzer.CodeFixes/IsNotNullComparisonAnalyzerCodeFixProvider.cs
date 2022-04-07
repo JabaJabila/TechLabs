@@ -11,12 +11,12 @@ using Microsoft.CodeAnalysis.Editing;
 
 namespace JabaJabilaAnalyzer
 {
-    [ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(IsNullComparisonAnalyzerCodeFixProvider))]
+    [ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(IsNotNullComparisonAnalyzerCodeFixProvider))]
     [Shared]
-    public class IsNullComparisonAnalyzerCodeFixProvider : CodeFixProvider
+    public class IsNotNullComparisonAnalyzerCodeFixProvider : CodeFixProvider
     {
         public sealed override ImmutableArray<string> FixableDiagnosticIds =>
-            ImmutableArray.Create(IsNullComparisonAnalyzer.DiagnosticId);
+            ImmutableArray.Create(IsNotNullComparisonAnalyzer.DiagnosticId);
 
         public sealed override FixAllProvider GetFixAllProvider()
         {
@@ -32,13 +32,13 @@ namespace JabaJabilaAnalyzer
 
             context.RegisterCodeFix(
                 CodeAction.Create(
-                    CodeFixResources.JABA0001Fix,
-                    c => MakeIsNull(context.Document, declaration),
-                    nameof(CodeFixResources.JABA0001Fix)),
+                    CodeFixResources.JABA0002Fix,
+                    c => MakeIsNotNull(context.Document, declaration),
+                    nameof(CodeFixResources.JABA0002Fix)),
                 diagnostic);
         }
 
-        private async Task<Solution> MakeIsNull(Document document, BinaryExpressionSyntax binExpr)
+        private async Task<Solution> MakeIsNotNull(Document document, BinaryExpressionSyntax binExpr)
         {
             var right = binExpr.Right;
             var left = binExpr.Left;
@@ -46,8 +46,12 @@ namespace JabaJabilaAnalyzer
             (nullExpr, notNullExpr) = right.IsKind(SyntaxKind.NullLiteralExpression) ? (right, left) : (left, right);
 
             if (!document.TryGetSyntaxRoot(out var root)) return document.Project.Solution;
-            var editor = new SyntaxEditor(root, document.Project.Solution.Workspace); 
-            var isExpr = SyntaxFactory.IsPatternExpression(notNullExpr, SyntaxFactory.ConstantPattern(nullExpr));
+            var editor = new SyntaxEditor(root, document.Project.Solution.Workspace);
+            var isExpr = SyntaxFactory.IsPatternExpression(
+                notNullExpr,
+                SyntaxFactory.UnaryPattern(SyntaxFactory.Token(SyntaxKind.NotKeyword),
+                    SyntaxFactory.ConstantPattern(nullExpr)));
+
             editor.ReplaceNode(binExpr, isExpr);
 
             return document.WithSyntaxRoot(editor.GetChangedRoot()).Project.Solution;

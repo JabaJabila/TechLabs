@@ -14,7 +14,7 @@ namespace JabaJabilaAnalyzer.Test
     {
         //No diagnostics expected to show up
         [TestMethod]
-        public async Task NoCodeNoDiagnostics()
+        public async Task NoCode_NoDiagnostics()
         {
             var test = @"";
 
@@ -22,7 +22,7 @@ namespace JabaJabilaAnalyzer.Test
         }
 
         [TestMethod]
-        public async Task NullCheckIsStatementNoDiagnosticsNeeded()
+        public async Task NullCheckIsStatement_NoDiagnosticsNeeded()
         {
             var test = @"
     using System;
@@ -51,7 +51,7 @@ namespace JabaJabilaAnalyzer.Test
 
         //Diagnostic and CodeFix both triggered and checked for
         [TestMethod]
-        public async Task IfStatementEqualsEqualsNullCheck()
+        public async Task IfStatement_EqualsEqualsNullCheck()
         {
             var test = @"
     using System;
@@ -68,8 +68,10 @@ namespace JabaJabilaAnalyzer.Test
             public bool Bruh() 
             {
                 var s = string.Empty;
-                if (s == null)
+                if (s == null) 
+                {
                     return true;
+                }
                 return false;
             }
         }
@@ -89,8 +91,11 @@ namespace JabaJabilaAnalyzer.Test
         {
             public bool Bruh() 
             {
-                if (new Test() is null)
+                var s = string.Empty;
+                if (s is null) 
+                {
                     return true;
+                }
                 return false;
             }
         }
@@ -98,13 +103,12 @@ namespace JabaJabilaAnalyzer.Test
             // /0/Test0.cs(16,21): warning JABA0001: Expression 's == null' checks on null with '==' operator
             // VerifyCS.Diagnostic().WithSpan(16, 21, 16, 30).WithArguments("s == null")
             var diagnosticResult = new DiagnosticResult("JABA0001", DiagnosticSeverity.Warning).WithSpan(16, 21, 16, 30);
-            await VerifyCS.VerifyAnalyzerAsync(test, diagnosticResult);
-            // await VerifyCS.VerifyCodeFixAsync(test, expected, fixtest);
+            await VerifyCS.VerifyCodeFixAsync(test, diagnosticResult, fixtest);
         }
 
         //Diagnostic and CodeFix both triggered and checked for
         [TestMethod]
-        public async Task TernaryStatementEqualsEqualsNullCheck()
+        public async Task TernaryStatement_EqualsEqualsNullCheck()
         {
             var test = @"
     using System;
@@ -140,16 +144,14 @@ namespace JabaJabilaAnalyzer.Test
         {
             public bool Bruh() 
             {
-                if (new Test() is null)
-                    return true;
-                return false;
+                var s = string.Empty;
+                return (s is null) ? true : false;
             }
         }
     }";
 
             var diagnosticResult = new DiagnosticResult("JABA0001", DiagnosticSeverity.Warning).WithSpan(16, 25, 16, 34);
-            await VerifyCS.VerifyAnalyzerAsync(test, diagnosticResult);
-            // await VerifyCS.VerifyCodeFixAsync(test, expected, fixtest);
+            await VerifyCS.VerifyCodeFixAsync(test, diagnosticResult, fixtest);
         }
     }
 }

@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.32126.317
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JabaJabilaAnalyzer", "JabaJabilaAnalyzer\JabaJabilaAnalyzer\JabaJabilaAnalyzer.csproj", "{41639CF8-4EDF-4408-B5BE-2CC27FF29C43}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JabaJabilaAnalyzer", "JabaJabilaAnalyzer\JabaJabilaAnalyzer\JabaJabilaAnalyzer.csproj", "{41639CF8-4EDF-4408-B5BE-2CC27FF29C43}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JabaJabilaAnalyzer.CodeFixes", "JabaJabilaAnalyzer\JabaJabilaAnalyzer.CodeFixes\JabaJabilaAnalyzer.CodeFixes.csproj", "{DC151111-B675-4503-8B24-39D03847A9B7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JabaJabilaAnalyzer.CodeFixes", "JabaJabilaAnalyzer\JabaJabilaAnalyzer.CodeFixes\JabaJabilaAnalyzer.CodeFixes.csproj", "{DC151111-B675-4503-8B24-39D03847A9B7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JabaJabilaAnalyzer.Package", "JabaJabilaAnalyzer\JabaJabilaAnalyzer.Package\JabaJabilaAnalyzer.Package.csproj", "{766665BC-9830-4C24-AC68-C8ABBA348C8F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JabaJabilaAnalyzer.Package", "JabaJabilaAnalyzer\JabaJabilaAnalyzer.Package\JabaJabilaAnalyzer.Package.csproj", "{766665BC-9830-4C24-AC68-C8ABBA348C8F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JabaJabilaAnalyzer.Test", "JabaJabilaAnalyzer\JabaJabilaAnalyzer.Test\JabaJabilaAnalyzer.Test.csproj", "{249DE981-595C-4B27-B367-C688DFE2E05C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JabaJabilaAnalyzer.Test", "JabaJabilaAnalyzer\JabaJabilaAnalyzer.Test\JabaJabilaAnalyzer.Test.csproj", "{249DE981-595C-4B27-B367-C688DFE2E05C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JabaJabilaAnalyzer.Vsix", "JabaJabilaAnalyzer\JabaJabilaAnalyzer.Vsix\JabaJabilaAnalyzer.Vsix.csproj", "{6ED362AC-8A81-484B-8121-42C26EFC6584}"
 EndProject
