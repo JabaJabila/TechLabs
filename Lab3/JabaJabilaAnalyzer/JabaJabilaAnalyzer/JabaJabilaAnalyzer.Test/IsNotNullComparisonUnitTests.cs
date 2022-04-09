@@ -10,7 +10,7 @@ using VerifyCS = JabaJabilaAnalyzer.Test.CSharpCodeFixVerifier<
 namespace JabaJabilaAnalyzer.Test
 {
     [TestClass]
-    public class JabaJabilaAnalyzerUnitTest
+    public class JabaJabilaAnalyzerUnitTests
     {
         //No diagnostics expected to show up
         [TestMethod]

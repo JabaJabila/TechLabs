@@ -113,5 +113,32 @@ namespace JabaJabilaAnalyzer {
                 return ResourceManager.GetString("JABA0002Title", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Public methods and propertioes should return IReadOnlyCollection interface..
+        /// </summary>
+        internal static string JABA0003Description {
+            get {
+                return ResourceManager.GetString("JABA0003Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на &apos;{}&apos; should return IReadOnlyCollection.
+        /// </summary>
+        internal static string JABA0003Format {
+            get {
+                return ResourceManager.GetString("JABA0003Format", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Public method or property returns concrete collection.
+        /// </summary>
+        internal static string JABA0003Title {
+            get {
+                return ResourceManager.GetString("JABA0003Title", resourceCulture);
+            }
+        }
     }
 }

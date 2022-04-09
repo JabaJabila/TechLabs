@@ -138,4 +138,13 @@
   <data name="JABA0002Title" xml:space="preserve">
     <value>Wrong way to compere with null</value>
   </data>
+  <data name="JABA0003Description" xml:space="preserve">
+    <value>Public methods and propertioes should return IReadOnlyCollection interface.</value>
+  </data>
+  <data name="JABA0003Format" xml:space="preserve">
+    <value>'{}' should return IReadOnlyCollection</value>
+  </data>
+  <data name="JABA0003Title" xml:space="preserve">
+    <value>Public method or property returns concrete collection</value>
+  </data>
 </root>
