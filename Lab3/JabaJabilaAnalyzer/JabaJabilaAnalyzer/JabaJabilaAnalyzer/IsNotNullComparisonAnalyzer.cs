@@ -17,7 +17,7 @@ namespace JabaJabilaAnalyzer
         private static readonly LocalizableString Title = new LocalizableResourceString(nameof(Resources.JABA0002Title), Resources.ResourceManager, typeof(Resources));
         private static readonly LocalizableString MessageFormat = new LocalizableResourceString(nameof(Resources.JABA0002Format), Resources.ResourceManager, typeof(Resources));
         private static readonly LocalizableString Description = new LocalizableResourceString(nameof(Resources.JABA0002Description), Resources.ResourceManager, typeof(Resources));
-        private const string Category = "Comparison";
+        private const string Category = "Usage";
 
         private static readonly DiagnosticDescriptor Rule = new DiagnosticDescriptor(DiagnosticId, Title, MessageFormat, Category, DiagnosticSeverity.Warning, isEnabledByDefault: true, description: Description);
         public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => ImmutableArray.Create(Rule);

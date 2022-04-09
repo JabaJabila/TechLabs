@@ -61,7 +61,7 @@ namespace JabaJabilaAnalyzer {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Check by using is null.
+        ///   Ищет локализованную строку, похожую на Check by using &apos;is null&apos;.
         /// </summary>
         internal static string JABA0001Fix {
             get {
@@ -70,7 +70,7 @@ namespace JabaJabilaAnalyzer {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на .
+        ///   Ищет локализованную строку, похожую на Check by using &apos;is not null&apos;.
         /// </summary>
         internal static string JABA0002Fix {
             get {

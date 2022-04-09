@@ -3,7 +3,7 @@
   <Import Sdk="Microsoft.NET.Sdk" Project="Sdk.props" />
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>net472</TargetFramework>
     <RootNamespace>JabaJabilaAnalyzer.Vsix</RootNamespace>
     <AssemblyName>JabaJabilaAnalyzer.Vsix</AssemblyName>
   </PropertyGroup>
@@ -19,7 +19,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.VSSDK.BuildTools" Version="15.1.192" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.VSSDK.BuildTools" Version="17.1.4054" PrivateAssets="all" />
   </ItemGroup>
 
   <PropertyGroup>
