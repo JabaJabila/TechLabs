@@ -124,4 +124,7 @@
   <data name="JABA0002Fix" xml:space="preserve">
     <value>Check by using 'is not null'</value>
   </data>
+  <data name="JABA0003Fix" xml:space="preserve">
+    <value>Make return IReadOnlyCollection&lt;T&gt;</value>
+  </data>
 </root>

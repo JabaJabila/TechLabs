@@ -124,7 +124,7 @@ namespace JabaJabilaAnalyzer {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на &apos;{}&apos; should return IReadOnlyCollection.
+        ///   Ищет локализованную строку, похожую на &apos;{0}&apos; should return IReadOnlyCollection.
         /// </summary>
         internal static string JABA0003Format {
             get {

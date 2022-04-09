@@ -6,7 +6,7 @@ using Microsoft.CodeAnalysis.Testing;
 using Microsoft.CodeAnalysis.Text;
 using VerifyCS = JabaJabilaAnalyzer.Test.CSharpCodeFixVerifier<
     JabaJabilaAnalyzer.ReturnIReadOnlyCollectionAnalyzer,
-    JabaJabilaAnalyzer.IsNullComparisonAnalyzerCodeFixProvider>;
+    JabaJabilaAnalyzer.ReturnIReadOnlyCollectionCodeFixProvider>;
 
 namespace JabaJabilaAnalyzer.Test
 {
@@ -81,7 +81,8 @@ namespace JabaJabilaAnalyzer.Test
     }";
             var diagnosticResult = new DiagnosticResult("JABA0003", DiagnosticSeverity.Warning).WithSpan(13, 30, 13, 34);
             var diagnosticResult2 = new DiagnosticResult("JABA0003", DiagnosticSeverity.Warning).WithSpan(13, 37, 13, 40);
-            await VerifyCS.VerifyAnalyzerAsync(test, diagnosticResult, diagnosticResult2);
+            // await VerifyCS.VerifyAnalyzerAsync(test, diagnosticResult, diagnosticResult2);
+            await VerifyCS.VerifyCodeFixAsync(test, new DiagnosticResult[] {diagnosticResult, diagnosticResult2}, fixtest);
         }
 
         //Diagnostic and CodeFix both triggered and checked for
@@ -103,10 +104,26 @@ namespace JabaJabilaAnalyzer.Test
             public int[] ints { get; set; }
         }
     }";
+            var fixtest = @"
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+    using System.Diagnostics;
+
+    namespace ConsoleApplication1
+    {
+        class Test
+        {
+            public IReadOnlyCollection<int> ints { get; set; }
+        }
+    }";
 
             var diagnosticResult = new DiagnosticResult("JABA0003", DiagnosticSeverity.Warning).WithSpan(13, 26, 13, 30);
             var diagnosticResult2 = new DiagnosticResult("JABA0003", DiagnosticSeverity.Warning).WithSpan(13, 33, 13, 36);
-            await VerifyCS.VerifyAnalyzerAsync(test, diagnosticResult, diagnosticResult2);
+            // await VerifyCS.VerifyAnalyzerAsync(test, diagnosticResult, diagnosticResult2);
+            await VerifyCS.VerifyCodeFixAsync(test, new DiagnosticResult[] {diagnosticResult, diagnosticResult2}, fixtest);
         }
 
         //Diagnostic and CodeFix both triggered and checked for
@@ -158,8 +175,27 @@ namespace JabaJabilaAnalyzer.Test
         }
     }";
 
+            var fixtest = @"
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+    using System.Diagnostics;
+
+    namespace ConsoleApplication1
+    {
+        class Test
+        {
+            public IReadOnlyCollection<int> GetArray()
+            {
+                return new int[5];
+            }
+        }
+    }";
+
             var diagnosticResult = new DiagnosticResult("JABA0003", DiagnosticSeverity.Warning).WithSpan(13, 26, 13, 34);
-            await VerifyCS.VerifyAnalyzerAsync(test, diagnosticResult);
+            await VerifyCS.VerifyCodeFixAsync(test, diagnosticResult, fixtest);
         }
 
         //Diagnostic and CodeFix both triggered and checked for
@@ -184,9 +220,27 @@ namespace JabaJabilaAnalyzer.Test
             }
         }
     }";
+            var fixtest = @"
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+    using System.Diagnostics;
+
+    namespace ConsoleApplication1
+    {
+        class Test
+        {
+            public IReadOnlyCollection<string> GetList()
+            {
+                return new List<string>();
+            }
+        }
+    }";
 
             var diagnosticResult = new DiagnosticResult("JABA0003", DiagnosticSeverity.Warning).WithSpan(13, 33, 13, 40);
-            await VerifyCS.VerifyAnalyzerAsync(test, diagnosticResult);
+            await VerifyCS.VerifyCodeFixAsync(test, diagnosticResult, fixtest);
         }
     }
 }

@@ -2,6 +2,8 @@
 
 public class Test
 {
+    public int[] KistRe { get; set; }
+    
     public static int Method()
     {
         var s = "12314";

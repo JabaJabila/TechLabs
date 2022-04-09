@@ -142,7 +142,7 @@
     <value>Public methods and propertioes should return IReadOnlyCollection interface.</value>
   </data>
   <data name="JABA0003Format" xml:space="preserve">
-    <value>'{}' should return IReadOnlyCollection</value>
+    <value>'{0}' should return IReadOnlyCollection</value>
   </data>
   <data name="JABA0003Title" xml:space="preserve">
     <value>Public method or property returns concrete collection</value>

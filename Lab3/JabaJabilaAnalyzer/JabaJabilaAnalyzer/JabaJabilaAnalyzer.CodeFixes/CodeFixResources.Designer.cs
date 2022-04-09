@@ -77,5 +77,14 @@ namespace JabaJabilaAnalyzer {
                 return ResourceManager.GetString("JABA0002Fix", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Make return IReadOnlyCollection&lt;T&gt;.
+        /// </summary>
+        internal static string JABA0003Fix {
+            get {
+                return ResourceManager.GetString("JABA0003Fix", resourceCulture);
+            }
+        }
     }
 }
