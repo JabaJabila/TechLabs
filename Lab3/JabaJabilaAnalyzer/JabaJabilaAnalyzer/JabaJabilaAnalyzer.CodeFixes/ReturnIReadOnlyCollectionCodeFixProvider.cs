@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Composition;
 using System.Linq;
@@ -20,8 +19,6 @@ namespace JabaJabilaAnalyzer
     {
         public sealed override ImmutableArray<string> FixableDiagnosticIds =>
             ImmutableArray.Create(ReturnIReadOnlyCollectionAnalyzer.DiagnosticId);
-
-        public string[] Ress { get; }
 
         public sealed override FixAllProvider GetFixAllProvider()
         {
