@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Threading.Tasks;
 using Microsoft.CodeAnalysis;
@@ -258,6 +259,78 @@ namespace JabaJabilaAnalyzer.Test
 
             var diagnosticResult = new DiagnosticResult("JABA0003", DiagnosticSeverity.Warning).WithSpan(13, 33, 13, 40);
             await VerifyCS.VerifyCodeFixAsync(test, diagnosticResult, fixtest);
+        }
+
+        [TestMethod]
+        public async Task PublicMethodArrayList_ChangeReturnType()
+        {
+            var test = @"
+    using System;
+    using System.ComponentModel;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+    using System.Diagnostics;
+
+    namespace ConsoleApplication1
+    {
+        class Test
+        {
+            public BindingList<string> GetList()
+            {
+                return new BindingList<string>();
+            }
+        }
+    }";
+            var fixtest = @"
+    using System;
+    using System.ComponentModel;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+    using System.Diagnostics;
+
+    namespace ConsoleApplication1
+    {
+        class Test
+        {
+            public IReadOnlyCollection<string> GetList()
+            {
+                return new BindingList<string>();
+            }
+        }
+    }";
+
+            var diagnosticResult = new DiagnosticResult("JABA0003", DiagnosticSeverity.Warning).WithSpan(14, 40, 14, 49);
+            await VerifyCS.VerifyCodeFixAsync(test, diagnosticResult, fixtest);
+        }
+
+        [TestMethod]
+        public async Task PublicMethodQueueReturn_NoDiagnostics()
+        {
+            var test = @"
+    using System;
+    using System.ComponentModel;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+    using System.Diagnostics;
+
+    namespace ConsoleApplication1
+    {
+        class Test
+        {
+            public Queue<string> GetQueue()
+            {
+                return new Queue<string>();
+            }
+        }
+    }";
+            
+            await VerifyCS.VerifyAnalyzerAsync(test);
         }
     }
 }

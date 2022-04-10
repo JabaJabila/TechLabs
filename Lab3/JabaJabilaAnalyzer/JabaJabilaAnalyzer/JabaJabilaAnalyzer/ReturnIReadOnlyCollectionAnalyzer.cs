@@ -1,7 +1,10 @@
-﻿using Microsoft.CodeAnalysis;
+﻿using System;
+using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Diagnostics;
 using System.Collections.Immutable;
 using System.Linq;
+using System.Text.RegularExpressions;
+using Microsoft.CodeAnalysis.CSharp;
 
 namespace JabaJabilaAnalyzer
 {
@@ -27,6 +30,8 @@ namespace JabaJabilaAnalyzer
 
         private static void Analyze(SymbolAnalysisContext context)
         {
+            var listInterfaceIdentifier = @"^System.Collections.Generic.IList<.*>$";
+
             if (context.Symbol.Kind == SymbolKind.Property && (((IPropertySymbol)context.Symbol).DeclaredAccessibility == Accessibility.Public))
             {
                 var propSymbol = (IPropertySymbol) context.Symbol;
@@ -38,7 +43,7 @@ namespace JabaJabilaAnalyzer
                 }
                 else
                 {
-                    if (!namedSymbol.IsGenericType || namedSymbol.Name != "List") return;
+                    if (!typeSymbol.AllInterfaces.Any(i => Regex.IsMatch(i.ToDisplayString(), listInterfaceIdentifier))) return;
                 }
 
                 var diagnostic = Diagnostic.Create(Rule, propSymbol.Locations.First(), "public property " + propSymbol.ToString());
@@ -55,7 +60,7 @@ namespace JabaJabilaAnalyzer
                 }
                 else
                 {
-                    if (!namedSymbol.IsGenericType || namedSymbol.Name != "List") return;
+                    if (!typeSymbol.AllInterfaces.Any(i => Regex.IsMatch(i.ToDisplayString(), listInterfaceIdentifier))) return;
                 }
 
                 var diagnostic = Diagnostic.Create(Rule, methodSymbol.Locations.First(), "public method " + methodSymbol.ToString());
