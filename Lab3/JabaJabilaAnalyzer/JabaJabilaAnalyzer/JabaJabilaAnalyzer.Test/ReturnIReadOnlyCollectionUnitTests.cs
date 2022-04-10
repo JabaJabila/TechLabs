@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Threading.Tasks;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Testing;
-using Microsoft.CodeAnalysis.Text;
+
 using VerifyCS = JabaJabilaAnalyzer.Test.CSharpCodeFixVerifier<
     JabaJabilaAnalyzer.ReturnIReadOnlyCollectionAnalyzer,
     JabaJabilaAnalyzer.ReturnIReadOnlyCollectionCodeFixProvider>;
@@ -303,7 +301,7 @@ namespace JabaJabilaAnalyzer.Test
         }
     }";
 
-            var diagnosticResult = new DiagnosticResult("JABA0003", DiagnosticSeverity.Warning).WithSpan(14, 40, 14, 49);
+            var diagnosticResult = new DiagnosticResult("JABA0003", DiagnosticSeverity.Warning).WithSpan(14, 40, 14, 47);
             await VerifyCS.VerifyCodeFixAsync(test, diagnosticResult, fixtest);
         }
 
