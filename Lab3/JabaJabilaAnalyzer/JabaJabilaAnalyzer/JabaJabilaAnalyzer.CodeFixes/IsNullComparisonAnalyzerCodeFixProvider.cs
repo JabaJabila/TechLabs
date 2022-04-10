@@ -38,7 +38,7 @@ namespace JabaJabilaAnalyzer
                 diagnostic);
         }
 
-        private async Task<Solution> MakeIsNull(Document document, BinaryExpressionSyntax binExpr)
+        private static async Task<Solution> MakeIsNull(Document document, BinaryExpressionSyntax binExpr)
         {
             var right = binExpr.Right;
             var left = binExpr.Left;
@@ -48,8 +48,8 @@ namespace JabaJabilaAnalyzer
             if (!document.TryGetSyntaxRoot(out var root)) return document.Project.Solution;
             var editor = new SyntaxEditor(root, document.Project.Solution.Workspace); 
             var isExpr = SyntaxFactory.IsPatternExpression(notNullExpr, SyntaxFactory.ConstantPattern(nullExpr));
-            editor.ReplaceNode(binExpr, isExpr);
 
+            editor.ReplaceNode(binExpr, isExpr);
             return document.WithSyntaxRoot(editor.GetChangedRoot()).Project.Solution;
         }
     }

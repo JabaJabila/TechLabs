@@ -38,7 +38,7 @@ namespace JabaJabilaAnalyzer
                 diagnostic);
         }
 
-        private async Task<Solution> MakeIsNotNull(Document document, BinaryExpressionSyntax binExpr)
+        private static async Task<Solution> MakeIsNotNull(Document document, BinaryExpressionSyntax binExpr)
         {
             var right = binExpr.Right;
             var left = binExpr.Left;
@@ -53,7 +53,6 @@ namespace JabaJabilaAnalyzer
                     SyntaxFactory.ConstantPattern(nullExpr)));
 
             editor.ReplaceNode(binExpr, isExpr);
-
             return document.WithSyntaxRoot(editor.GetChangedRoot()).Project.Solution;
         }
     }

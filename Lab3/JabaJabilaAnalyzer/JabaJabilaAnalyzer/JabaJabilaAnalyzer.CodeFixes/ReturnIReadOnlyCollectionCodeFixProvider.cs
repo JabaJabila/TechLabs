@@ -17,6 +17,8 @@ namespace JabaJabilaAnalyzer
     [Shared]
     public class ReturnIReadOnlyCollectionCodeFixProvider : CodeFixProvider
     {
+        private const string CollectionType = "IReadOnlyCollection";
+
         public sealed override ImmutableArray<string> FixableDiagnosticIds =>
             ImmutableArray.Create(ReturnIReadOnlyCollectionAnalyzer.DiagnosticId);
 
@@ -40,11 +42,13 @@ namespace JabaJabilaAnalyzer
                 diagnostic);
         }
 
-        private async Task<Solution> MakeReturnIReadOnlyCollection(Document document, SyntaxNode node, CancellationToken cancellationToken)
+        private static async Task<Solution> MakeReturnIReadOnlyCollection(Document document, SyntaxNode node, CancellationToken cancellationToken)
         {
-            var semantic = await document.GetSemanticModelAsync(cancellationToken);
-            var callNode = node.AncestorsAndSelf().First(n => n.IsKind(SyntaxKind.PropertyDeclaration) || n.IsKind(SyntaxKind.MethodDeclaration));
-            var collectionIdentifier = SyntaxFactory.Identifier("IReadOnlyCollection");
+            var callNode = node.AncestorsAndSelf()
+                .First(n => n.IsKind(SyntaxKind.PropertyDeclaration) || n.IsKind(SyntaxKind.MethodDeclaration));
+
+            var collectionIdentifier = SyntaxFactory.Identifier(CollectionType);
+
             if (!document.TryGetSyntaxRoot(out var root)) return document.Project.Solution;
             var editor = new SyntaxEditor(root, document.Project.Solution.Workspace);
 
@@ -53,25 +57,10 @@ namespace JabaJabilaAnalyzer
                 var propNode = (PropertyDeclarationSyntax) callNode;
                 var type = propNode.Type;
                 if (type.IsKind(SyntaxKind.ArrayType))
-                {
-                    var arrayType = (ArrayTypeSyntax) type;
-                    var elementType = arrayType.ElementType;
-
-                    var newNode = SyntaxFactory.GenericName(
-                        collectionIdentifier,
-                        SyntaxFactory.TypeArgumentList(SyntaxFactory.SeparatedList(new List<TypeSyntax> {elementType})));
-
-                    editor.ReplaceNode(arrayType, newNode);
-                }
+                    ChangeFromArrayToIReadOnlyCollection(editor, type, collectionIdentifier);
 
                 else if (type.IsKind(SyntaxKind.GenericName))
-                {
-                    var genericName = (GenericNameSyntax) type;
-                    var elementTypes = genericName.TypeArgumentList;
-                    var newNode = SyntaxFactory.GenericName(collectionIdentifier, elementTypes);
-
-                    editor.ReplaceNode(genericName, newNode);
-                }
+                    ChangeFromIListToIReadOnlyCollection(editor, type, collectionIdentifier);
             }
 
             else if (callNode.IsKind(SyntaxKind.MethodDeclaration))
@@ -80,28 +69,34 @@ namespace JabaJabilaAnalyzer
                 var type = methodNode.ReturnType;
 
                 if (type.IsKind(SyntaxKind.ArrayType))
-                {
-                    var arrayType = (ArrayTypeSyntax)type;
-                    var elementType = arrayType.ElementType;
-
-                    var newNode = SyntaxFactory.GenericName(
-                        collectionIdentifier,
-                        SyntaxFactory.TypeArgumentList(SyntaxFactory.SeparatedList(new List<TypeSyntax> { elementType })));
-
-                    editor.ReplaceNode(arrayType, newNode);
-                }
+                    ChangeFromArrayToIReadOnlyCollection(editor, type, collectionIdentifier);
 
                 else if (type.IsKind(SyntaxKind.GenericName))
-                {
-                    var genericName = (GenericNameSyntax)type;
-                    var elementTypes = genericName.TypeArgumentList;
-                    var newNode = SyntaxFactory.GenericName(collectionIdentifier, elementTypes);
-
-                    editor.ReplaceNode(genericName, newNode);
-                }
+                    ChangeFromIListToIReadOnlyCollection(editor, type, collectionIdentifier);
             }
 
             return document.WithSyntaxRoot(editor.GetChangedRoot()).Project.Solution;
+        }
+
+        private static void ChangeFromIListToIReadOnlyCollection(SyntaxEditor editor, TypeSyntax type, SyntaxToken collectionIdentifier)
+        {
+            var genericName = (GenericNameSyntax)type;
+            var elementTypes = genericName.TypeArgumentList;
+            var newNode = SyntaxFactory.GenericName(collectionIdentifier, elementTypes);
+
+            editor.ReplaceNode(genericName, newNode);
+        }
+
+        private static void ChangeFromArrayToIReadOnlyCollection(SyntaxEditor editor, TypeSyntax type, SyntaxToken collectionIdentifier)
+        {
+            var arrayType = (ArrayTypeSyntax)type;
+            var elementType = arrayType.ElementType;
+
+            var newNode = SyntaxFactory.GenericName(
+                collectionIdentifier,
+                SyntaxFactory.TypeArgumentList(SyntaxFactory.SeparatedList(new List<TypeSyntax> { elementType })));
+
+            editor.ReplaceNode(arrayType, newNode);
         }
     }
 }
