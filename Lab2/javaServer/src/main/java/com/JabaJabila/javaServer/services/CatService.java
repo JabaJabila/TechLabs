@@ -1,8 +1,8 @@
 package com.JabaJabila.javaServer.services;
 
 import com.JabaJabila.javaServer.entities.Cat;
-import com.JabaJabila.javaServer.entities.CatColor;
 import com.JabaJabila.javaServer.repository.ICatRepository;
+import com.JabaJabila.javaServer.repository.IOwnerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +13,10 @@ public class CatService {
     @Autowired
     private ICatRepository catRepository;
 
-    public Cat createCat(String name, CatColor color, String breed, Date birthdate) {
+    @Autowired
+    private IOwnerRepository ownerRepository;
+
+    public Cat createCat(String name, String breed, Date birthdate) {
         Cat cat = new Cat();
         if (name == null)
             throw new IllegalArgumentException("name can't be null");
@@ -24,12 +27,8 @@ public class CatService {
         if (birthdate == null)
             throw new IllegalArgumentException("birthdate can't be null");
 
-        if (color == null)
-            throw new IllegalArgumentException("color can't be null");
-
         cat.setName(name);
         cat.setBreed(breed);
-        cat.setColor(color);
         cat.setBirthdate(birthdate);
         return catRepository.save(cat);
     }
@@ -43,6 +42,8 @@ public class CatService {
     }
 
     public void deleteCat(Long id) {
-        catRepository.delete(findCat(id));
+        Cat cat = findCat(id);
+        catRepository.delete(cat);
+        ownerRepository.save(ownerRepository.findById(cat.getOwner().getOwnerId()).get());
     }
 }

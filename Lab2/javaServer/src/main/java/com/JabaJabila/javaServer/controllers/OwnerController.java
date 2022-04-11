@@ -1,6 +1,7 @@
 package com.JabaJabila.javaServer.controllers;
 
 import com.JabaJabila.javaServer.dto.OwnerCreationInfo;
+import com.JabaJabila.javaServer.dto.OwnerViewModel;
 import com.JabaJabila.javaServer.entities.Cat;
 import com.JabaJabila.javaServer.entities.Owner;
 import com.JabaJabila.javaServer.services.CatService;
@@ -27,29 +28,32 @@ public class OwnerController {
             path = "create-owner",
             consumes = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE},
             produces = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<Owner> CreateOwner(
-            @RequestBody OwnerCreationInfo ownerInfo) {
+    public ResponseEntity<OwnerViewModel> CreateOwner(@RequestBody OwnerCreationInfo ownerInfo) {
         try {
             Owner owner = ownerService.createOwner(ownerInfo.getName(), ownerInfo.getBirthdate());
-            return new ResponseEntity(owner, HttpStatus.OK);
+            return new ResponseEntity(OwnerViewModel.CreateFromEntity(owner), HttpStatus.OK);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<Owner>> getAll() {
+    public ResponseEntity<List<OwnerViewModel>> getAll() {
         try {
-           return new ResponseEntity(ownerService.getAllOwners(), HttpStatus.OK);
+            List<OwnerViewModel> ownerViews = new ArrayList<>();
+            for (Owner owner: ownerService.getAllOwners()) {
+                ownerViews.add(OwnerViewModel.CreateFromEntity(owner));
+            }
+            return new ResponseEntity(ownerViews, HttpStatus.OK);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Owner> getOwner(@PathVariable Long id) {
+    public ResponseEntity<OwnerViewModel> getOwner(@PathVariable Long id) {
         try {
-            return new ResponseEntity(ownerService.findOwner(id), HttpStatus.OK);
+            return new ResponseEntity(OwnerViewModel.CreateFromEntity(ownerService.findOwner(id)), HttpStatus.OK);
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
@@ -66,30 +70,28 @@ public class OwnerController {
     }
 
     @PostMapping("add/{ownerId}")
-    public ResponseEntity<Owner> addCat(@PathVariable Long ownerId, @RequestParam Long catId) {
+    public HttpStatus addCat(@PathVariable Long ownerId, @RequestParam Long catId) {
         try {
-            return new ResponseEntity(
-                    ownerService.addCat(ownerService.findOwner(ownerId), catService.findCat(catId)),
-                    HttpStatus.OK);
+            ownerService.addCat(ownerService.findOwner(ownerId), catService.findCat(catId));
+            return HttpStatus.OK;
         } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+            return HttpStatus.NOT_FOUND;
         }
     }
 
     @PostMapping("add-many/{ownerId}")
-    public ResponseEntity<Owner> addCats(@PathVariable Long ownerId, @RequestParam List<Long> catIds) {
+    public HttpStatus addCats(@PathVariable Long ownerId, @RequestParam List<Long> catIds) {
         try {
             List<Cat> cats = new ArrayList<Cat>();
-
             for (Long id: catIds) {
                 cats.add(catService.findCat(id));
             }
 
-            return new ResponseEntity(
-                    ownerService.addCats(ownerService.findOwner(ownerId), cats),
-                    HttpStatus.OK);
+            ownerService.addCats(ownerService.findOwner(ownerId), cats);
+            return HttpStatus.OK;
+
         } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+            return HttpStatus.NOT_FOUND;
         }
     }
 }

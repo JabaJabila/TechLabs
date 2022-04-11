@@ -38,4 +38,6 @@ public class Owner {
     public void setBirthdate(Date birthdate) {
         this.birthdate = birthdate;
     }
+
+    public List<Cat> getCats() { return cats; }
 }

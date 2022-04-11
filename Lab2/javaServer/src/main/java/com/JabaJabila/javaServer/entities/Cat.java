@@ -9,7 +9,6 @@ public class Cat {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long catId;
     private String name;
-    private CatColor color;
     private String breed;
     private Date birthdate;
 
@@ -20,24 +19,12 @@ public class Cat {
         return catId;
     }
 
-    public void setCatId(Long catId) {
-        this.catId = catId;
-    }
-
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public CatColor getColor() {
-        return color;
-    }
-
-    public void setColor(CatColor color) {
-        this.color = color;
     }
 
     public String getBreed() {

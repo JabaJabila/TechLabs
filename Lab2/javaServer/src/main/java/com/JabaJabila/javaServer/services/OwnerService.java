@@ -2,6 +2,7 @@ package com.JabaJabila.javaServer.services;
 
 import com.JabaJabila.javaServer.entities.Cat;
 import com.JabaJabila.javaServer.entities.Owner;
+import com.JabaJabila.javaServer.repository.ICatRepository;
 import com.JabaJabila.javaServer.repository.IOwnerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,6 +13,9 @@ import java.util.Date;
 public class OwnerService {
     @Autowired
     private IOwnerRepository ownerRepository;
+
+    @Autowired
+    private ICatRepository catRepository;
 
     public Owner createOwner(String name, Date birthdate) {
         Owner owner = new Owner();
@@ -46,6 +50,9 @@ public class OwnerService {
             throw new IllegalArgumentException("cat can't be null");
 
         cat.setOwner(owner);
+        catRepository.save(cat);
+        ownerRepository.save(owner);
+
         return owner;
     }
 
@@ -61,7 +68,12 @@ public class OwnerService {
                 throw new IllegalArgumentException("cat can't be null");
 
             cat.setOwner(owner);
+            catRepository.save(cat);
+            owner = ownerRepository.findById(owner.getOwnerId()).get();
+            ownerRepository.save(owner);
         }
+
+        ownerRepository.save(owner);
         return owner;
     }
 }
