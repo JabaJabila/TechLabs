@@ -31,17 +31,21 @@ namespace JabaJabilaAnalyzer
 
         private static void Analyze(SymbolAnalysisContext context)
         {
-            if (context.Symbol.Kind == SymbolKind.Property && (((IPropertySymbol)context.Symbol).DeclaredAccessibility == Accessibility.Public))
+            if (context.Symbol.Kind == SymbolKind.Property)
             {
                 var propSymbol = (IPropertySymbol) context.Symbol;
+                if (propSymbol.DeclaredAccessibility != Accessibility.Public) return;
+
                 var typeSymbol = propSymbol.Type;
                 if (!CheckIfArrayOrList(typeSymbol)) return;
                 var diagnostic = Diagnostic.Create(Rule, propSymbol.Locations.First(), "public property " + propSymbol.ToString());
                 context.ReportDiagnostic(diagnostic);
             }
-            else if (context.Symbol.Kind == SymbolKind.Method && ((IMethodSymbol)context.Symbol).DeclaredAccessibility == Accessibility.Public)
+            else if (context.Symbol.Kind == SymbolKind.Method)
             {
                 var methodSymbol = (IMethodSymbol)context.Symbol;
+                if (methodSymbol.DeclaredAccessibility != Accessibility.Public) return;
+
                 var typeSymbol = methodSymbol.ReturnType;
                 if (!CheckIfArrayOrList(typeSymbol)) return;
                 var diagnostic = Diagnostic.Create(Rule, methodSymbol.Locations.First(), "public method " + methodSymbol.ToString());
