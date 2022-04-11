@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Codegen", "Codegen\Codegen.csproj", "{C7F65C56-0197-4B4C-A3F7-90F5F9EF01E4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JavaParser", "JavaParser\JavaParser.csproj", "{D805DB24-284D-4340-A3E7-8B228B79FB3D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C7F65C56-0197-4B4C-A3F7-90F5F9EF01E4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C7F65C56-0197-4B4C-A3F7-90F5F9EF01E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C7F65C56-0197-4B4C-A3F7-90F5F9EF01E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C7F65C56-0197-4B4C-A3F7-90F5F9EF01E4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D805DB24-284D-4340-A3E7-8B228B79FB3D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D805DB24-284D-4340-A3E7-8B228B79FB3D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D805DB24-284D-4340-A3E7-8B228B79FB3D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D805DB24-284D-4340-A3E7-8B228B79FB3D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
