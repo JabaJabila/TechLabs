@@ -9,10 +9,10 @@ public class RequestModel
     {
         _names = new List<string>();
         _types = new List<string>();
-        DtoName = string.Empty;
+        ModelName = string.Empty;
     }
     
-    public string DtoName { get; set; }
+    public string ModelName { get; set; }
     public IReadOnlyCollection<string> PropertyNames => _names;
     public IReadOnlyCollection<string> PropertyTypes => _types;
 

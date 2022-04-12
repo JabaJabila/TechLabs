@@ -4,5 +4,5 @@ namespace JavaParser;
 
 public interface IRequestModelParser
 {
-    RequestModel GetDtoInfo(string pathToFile);
+    RequestModel GetModelInfo(string pathToFile);
 }
