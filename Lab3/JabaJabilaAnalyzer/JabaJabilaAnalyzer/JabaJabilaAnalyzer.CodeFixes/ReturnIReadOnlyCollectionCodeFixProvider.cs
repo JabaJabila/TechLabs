@@ -42,14 +42,14 @@ namespace JabaJabilaAnalyzer
                 diagnostic);
         }
 
-        private static async Task<Solution> MakeReturnIReadOnlyCollection(Document document, SyntaxNode node, CancellationToken cancellationToken)
+        private static Task<Solution> MakeReturnIReadOnlyCollection(Document document, SyntaxNode node, CancellationToken cancellationToken)
         {
             var callNode = node.AncestorsAndSelf()
                 .First(n => n.IsKind(SyntaxKind.PropertyDeclaration) || n.IsKind(SyntaxKind.MethodDeclaration));
 
             var collectionIdentifier = SyntaxFactory.Identifier(CollectionType);
 
-            if (!document.TryGetSyntaxRoot(out var root)) return document.Project.Solution;
+            if (!document.TryGetSyntaxRoot(out var root)) return Task.FromResult(document.Project.Solution);
             var editor = new SyntaxEditor(root, document.Project.Solution.Workspace);
 
             if (callNode.IsKind(SyntaxKind.PropertyDeclaration))
@@ -75,7 +75,7 @@ namespace JabaJabilaAnalyzer
                     ChangeFromIListToIReadOnlyCollection(editor, type, collectionIdentifier);
             }
 
-            return document.WithSyntaxRoot(editor.GetChangedRoot()).Project.Solution;
+            return Task.FromResult(document.WithSyntaxRoot(editor.GetChangedRoot()).Project.Solution);
         }
 
         private static void ChangeFromIListToIReadOnlyCollection(SyntaxEditor editor, TypeSyntax type, SyntaxToken collectionIdentifier)
