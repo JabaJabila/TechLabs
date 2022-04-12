@@ -1,4 +1,6 @@
-﻿namespace JavaParser;
+﻿using JavaParser.SemanticDataModels;
+
+namespace JavaParser;
 
 public class JavaCodeParser
 {
@@ -9,5 +11,21 @@ public class JavaCodeParser
     {
         _controllerParser = controllerParser ?? throw new ArgumentNullException(nameof(controllerParser));
         _requestModelParser = requestModelParser ?? throw new ArgumentNullException(nameof(requestModelParser));
+    }
+
+    public IReadOnlyCollection<RequestModel> ParseAllRequestModels(string pathToFolder)
+    {
+        return Directory
+            .GetFiles(pathToFolder)
+            .Select(fileName => _requestModelParser.GetModelInfo(fileName))
+            .ToList();
+    }
+
+    public IReadOnlyCollection<ControllerModel> ParseAllControllers(string pathToFolder)
+    {
+        return Directory
+            .GetFiles(pathToFolder)
+            .Select(fileName => _controllerParser.GetControllerModel(fileName))
+            .ToList();
     }
 }
