@@ -17,7 +17,7 @@ foreach (var prop in props)
 Console.WriteLine();
 var controllerParser = new ControllerParser(new MethodInfoParser(typeMapper));
 var controller = controllerParser
-    .GetControllerModel(@"D:\TechLabs\Lab2\javaServer\src\main\java\com\JabaJabila\javaServer\controllers\OwnerController.java");
+    .GetControllerModel(@"D:\TechLabs\Lab2\javaServer\src\main\java\com\JabaJabila\javaServer\controllers\CatController.java");
     
 Console.WriteLine(controller.Name);
 Console.WriteLine(controller.BaseUrl);
@@ -29,4 +29,5 @@ foreach (var method in controller.MethodModels)
     {
         Console.WriteLine($"\t{arg.RequestType} {arg.Type} {arg.Name}");
     }
+    Console.WriteLine("------------------------------------------");
 }
