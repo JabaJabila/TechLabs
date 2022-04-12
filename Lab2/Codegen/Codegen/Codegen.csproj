@@ -7,4 +7,14 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\JavaParser\JavaParser.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="ClientGenerators" />
+      <Folder Include="MethodGenerators" />
+      <Folder Include="ModelGenerators" />
+    </ItemGroup>
+
 </Project>
