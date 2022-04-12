@@ -3,7 +3,6 @@
 public enum RequestArgumentType
 {
     Query,
-    QueryArray,
     Body,
     Path,
 }

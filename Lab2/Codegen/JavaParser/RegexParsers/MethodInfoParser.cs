@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.Net;
+using System.Text.RegularExpressions;
 using JavaParser.SemanticDataModels;
 using JavaParser.Tools;
 
@@ -33,6 +34,8 @@ public class MethodInfoParser : IMethodInfoParser
             methodModel.Name = words[2];
             methodModel.ReturnType = _typeMapper.MapType(words[1]);
             (methodModel.Url, methodModel.RequestType) = requestInfo[methodCounter];
+            var args = GetArgumentInfo(method);
+            args.ForEach(a => methodModel.AddArgument(a));
             controllerModel.AddMethodModel(methodModel);
             methodCounter++;
         }
@@ -63,5 +66,30 @@ public class MethodInfoParser : IMethodInfoParser
         }
 
         return result;
-    } 
+    }
+
+    private List<ArgumentModel> GetArgumentInfo(string methodString)
+    {
+        var result = new List<ArgumentModel>();
+        var argumentsString = methodString[(methodString.IndexOf('(') + 1)..methodString.IndexOf(')')];
+        var arguments = argumentsString.Split(',');
+        foreach (var argument in arguments)
+        {
+            if (string.IsNullOrWhiteSpace(argument)) continue;
+            var cleanArgument = argument.Trim(' ');
+            var argumentModel = new ArgumentModel();
+            var words = cleanArgument.Split(' ');
+            argumentModel.Name = words[2];
+            argumentModel.Type = _typeMapper.MapType(words[1]);
+            argumentModel.RequestType = words[0] switch
+            {
+                "@RequestBody" => RequestArgumentType.Body,
+                "@PathVariable" => RequestArgumentType.Path,
+                "@RequestParam" => RequestArgumentType.Query,
+                _ => throw new ParserException($"argument type {words[0]} is unknown"),
+            };
+            result.Add(argumentModel);
+        }
+        return result;
+    }
 }
