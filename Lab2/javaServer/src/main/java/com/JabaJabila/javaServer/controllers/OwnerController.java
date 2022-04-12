@@ -24,8 +24,7 @@ public class OwnerController {
     @Autowired
     private CatService catService;
 
-    @PostMapping(
-            path = "create-owner",
+    @PostMapping(path = "create-owner",
             consumes = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE},
             produces = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<OwnerViewModel> CreateOwner(@RequestBody OwnerCreationInfo ownerInfo) {
@@ -37,7 +36,7 @@ public class OwnerController {
         }
     }
 
-    @GetMapping("/all")
+    @GetMapping("all")
     public ResponseEntity<List<OwnerViewModel>> getAll() {
         try {
             List<OwnerViewModel> ownerViews = new ArrayList<>();
@@ -50,7 +49,7 @@ public class OwnerController {
         }
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("{id}")
     public ResponseEntity<OwnerViewModel> getOwner(@PathVariable Long id) {
         try {
             return new ResponseEntity(OwnerViewModel.CreateFromEntity(ownerService.findOwner(id)), HttpStatus.OK);

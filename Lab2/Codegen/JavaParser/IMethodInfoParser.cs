@@ -4,5 +4,5 @@ namespace JavaParser;
 
 public interface IMethodInfoParser
 {
-    RequestMethodModel GetMethodData(string pathToFile);
+    void FillMethodData(string pathToFile, ControllerModel controllerModel);
 }

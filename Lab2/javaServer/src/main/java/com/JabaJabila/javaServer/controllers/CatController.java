@@ -20,8 +20,7 @@ public class CatController {
     @Autowired
     private CatService catService;
 
-    @PostMapping(
-            path = "create-cat",
+    @PostMapping(path = "create-cat",
             consumes = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE},
             produces = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<CatViewModel> CreateCat(@RequestBody CatCreationInfo catInfo) {
@@ -34,7 +33,7 @@ public class CatController {
         }
     }
 
-    @GetMapping("/all")
+    @GetMapping("all")
     public ResponseEntity<List<CatViewModel>> getAll() {
         try {
             List<CatViewModel> cats = new ArrayList<>();
@@ -47,7 +46,7 @@ public class CatController {
         }
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("{id}")
     public ResponseEntity<CatViewModel> getCat(@PathVariable Long id) {
         try {
             return new ResponseEntity(CatViewModel.CreateFromEntity(catService.findCat(id)), HttpStatus.OK);

@@ -4,5 +4,5 @@ namespace JavaParser;
 
 public interface IControllerParser
 {
-    ControllerModel GetControllerModel(string path);
+    ControllerModel GetControllerModel(string pathToFile);
 }
