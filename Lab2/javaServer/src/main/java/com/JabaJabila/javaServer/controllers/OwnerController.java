@@ -1,7 +1,7 @@
 package com.JabaJabila.javaServer.controllers;
 
-import com.JabaJabila.javaServer.dto.OwnerCreationInfo;
-import com.JabaJabila.javaServer.dto.OwnerViewModel;
+import com.JabaJabila.javaServer.models.OwnerCreationInfo;
+import com.JabaJabila.javaServer.models.OwnerViewModel;
 import com.JabaJabila.javaServer.entities.Cat;
 import com.JabaJabila.javaServer.entities.Owner;
 import com.JabaJabila.javaServer.services.CatService;

@@ -1,9 +1,10 @@
-package com.JabaJabila.javaServer.dto;
+package com.JabaJabila.javaServer.models;
 
 import java.util.Date;
 
-public class OwnerCreationInfo {
+public class CatCreationInfo {
     private String name;
+    private String breed;
     private Date birthdate;
 
     public String getName() {
@@ -12,6 +13,14 @@ public class OwnerCreationInfo {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getBreed() {
+        return breed;
+    }
+
+    public void setBreed(String breed) {
+        this.breed = breed;
     }
 
     public Date getBirthdate() {

@@ -1,11 +1,11 @@
 ﻿namespace JavaParser.SemanticDataModels;
 
-public class DtoModel
+public class RequestModel
 {
     private readonly List<string> _names;
     private readonly List<string> _types;
 
-    public DtoModel()
+    public RequestModel()
     {
         _names = new List<string>();
         _types = new List<string>();

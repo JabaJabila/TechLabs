@@ -1,7 +1,7 @@
 package com.JabaJabila.javaServer.controllers;
 
-import com.JabaJabila.javaServer.dto.CatCreationInfo;
-import com.JabaJabila.javaServer.dto.CatViewModel;
+import com.JabaJabila.javaServer.models.CatCreationInfo;
+import com.JabaJabila.javaServer.models.CatViewModel;
 import com.JabaJabila.javaServer.entities.Cat;
 import com.JabaJabila.javaServer.services.CatService;
 import org.springframework.beans.factory.annotation.Autowired;

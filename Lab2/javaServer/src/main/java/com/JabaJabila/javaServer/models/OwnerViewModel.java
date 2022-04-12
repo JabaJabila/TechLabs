@@ -1,4 +1,4 @@
-package com.JabaJabila.javaServer.dto;
+package com.JabaJabila.javaServer.models;
 
 import com.JabaJabila.javaServer.entities.Cat;
 import com.JabaJabila.javaServer.entities.Owner;

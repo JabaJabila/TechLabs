@@ -2,9 +2,9 @@
 
 namespace JavaParser.RegexParsers;
 
-public class DtoParser : IDtoParser
+public class RequestModelParser : IRequestModelParser
 {
-    public DtoModel GetDtoInfo(string pathToFile)
+    public RequestModel GetDtoInfo(string pathToFile)
     {
         // TODO
         return null;
