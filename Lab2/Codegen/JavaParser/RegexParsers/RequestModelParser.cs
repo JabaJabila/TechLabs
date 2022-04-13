@@ -33,7 +33,7 @@ public class RequestModelParser : IRequestModelParser
         foreach (var field in fieldsClear)
         {
             var words = field[..^1].Split(' ');
-            result.AddName(words[2]);
+            result.AddName(char.ToUpper(words[2][0]) + words[2][1..]);
             result.AddType(_typeMapper.MapType(words[1]));
         }
         
