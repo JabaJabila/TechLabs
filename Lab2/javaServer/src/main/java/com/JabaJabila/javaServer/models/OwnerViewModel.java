@@ -12,6 +12,10 @@ public class OwnerViewModel {
     private Date birthdate;
     private ArrayList<CatViewModel> cats;
 
+    public OwnerViewModel() {
+        cats = new ArrayList<CatViewModel>();
+    }
+
     public Long getOwnerId() {
         return ownerId;
     }

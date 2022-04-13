@@ -1,7 +1,7 @@
 namespace MyHttpClient.GeneratedModels;
 public class OwnerViewModel
 {
-    public OwnerViewModel(long ownerId, string name, JavaDateFormat birthdate, List<CatViewModel> cats)
+    public OwnerViewModel(long ownerId, string name, string birthdate, List<CatViewModel> cats)
     {
         OwnerId = ownerId;
         Name = name;
@@ -13,7 +13,7 @@ public class OwnerViewModel
 
     public string Name { get; set; }
 
-    public JavaDateFormat Birthdate { get; set; }
+    public string Birthdate { get; set; }
 
     public List<CatViewModel> Cats { get; set; }
 }

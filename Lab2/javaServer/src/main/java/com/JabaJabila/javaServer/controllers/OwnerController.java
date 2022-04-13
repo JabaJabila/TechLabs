@@ -25,8 +25,8 @@ public class OwnerController {
     private CatService catService;
 
     @PostMapping(path = "create-owner",
-            consumes = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE},
-            produces = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
+            consumes = {MediaType.APPLICATION_JSON_VALUE},
+            produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<OwnerViewModel> CreateOwner(@RequestBody OwnerCreationInfo ownerInfo) {
         try {
             Owner owner = ownerService.createOwner(ownerInfo.getName(), ownerInfo.getBirthdate());

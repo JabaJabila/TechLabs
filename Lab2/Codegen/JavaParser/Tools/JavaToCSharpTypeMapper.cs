@@ -16,7 +16,7 @@ public class JavaToCSharpTypeMapper : IJavaToCSharpTypeMapper
         return type switch
         {
             "ArrayList" => "List",
-            "Date" => "JavaDateFormat",
+            "Date" => "string",
             "String" => "string",
             "Integer" => "int",
             "Long" => "long",

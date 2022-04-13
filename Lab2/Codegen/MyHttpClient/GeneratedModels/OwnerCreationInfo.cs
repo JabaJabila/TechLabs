@@ -1,7 +1,7 @@
 namespace MyHttpClient.GeneratedModels;
 public class OwnerCreationInfo
 {
-    public OwnerCreationInfo(string name, JavaDateFormat birthdate)
+    public OwnerCreationInfo(string name, string birthdate)
     {
         Name = name;
         Birthdate = birthdate;
@@ -9,5 +9,5 @@ public class OwnerCreationInfo
 
     public string Name { get; set; }
 
-    public JavaDateFormat Birthdate { get; set; }
+    public string Birthdate { get; set; }
 }

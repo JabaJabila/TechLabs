@@ -1,7 +1,7 @@
 namespace MyHttpClient.GeneratedModels;
 public class CatCreationInfo
 {
-    public CatCreationInfo(string name, string breed, JavaDateFormat birthdate)
+    public CatCreationInfo(string name, string breed, string birthdate)
     {
         Name = name;
         Breed = breed;
@@ -12,5 +12,5 @@ public class CatCreationInfo
 
     public string Breed { get; set; }
 
-    public JavaDateFormat Birthdate { get; set; }
+    public string Birthdate { get; set; }
 }

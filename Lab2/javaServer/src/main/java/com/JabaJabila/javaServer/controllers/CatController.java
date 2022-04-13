@@ -21,8 +21,8 @@ public class CatController {
     private CatService catService;
 
     @PostMapping(path = "create-cat",
-            consumes = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE},
-            produces = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
+            consumes = {MediaType.APPLICATION_JSON_VALUE},
+            produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<CatViewModel> CreateCat(@RequestBody CatCreationInfo catInfo) {
         try {
             Cat cat = catService.createCat(
