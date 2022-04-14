@@ -1,7 +1,5 @@
 ﻿using JavaParser;
-using JavaParser.RegexParsers;
 using JavaParser.SemanticDataModels;
-using JavaParser.Tools;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -11,9 +9,9 @@ namespace Codegen.ModelGenerators;
 
 public class RequestModelGenerator
 {
-    private JavaCodeParser _parser;
+    private readonly IJavaCodeParser _parser;
 
-    public RequestModelGenerator(JavaCodeParser parser)
+    public RequestModelGenerator(IJavaCodeParser parser)
     {
         _parser = parser ?? throw new ArgumentNullException(nameof(parser));
     }
@@ -21,11 +19,6 @@ public class RequestModelGenerator
     public void GenerateModels(string pathToModels, string pathToProject, string rootNamespace)
     {
         Directory.CreateDirectory(Path.Combine(pathToProject, "GeneratedModels"));
-        var typeMapper = new JavaToCSharpTypeMapper();
-        _parser = new JavaCodeParser(new ControllerParser(
-                new MethodInfoParser(typeMapper)),
-            new RequestModelParser(typeMapper));
-        
         var modelInfo = _parser.ParseAllRequestModels(pathToModels);
         foreach (var requestModel in modelInfo)
             GenerateModel(requestModel, pathToProject, rootNamespace);

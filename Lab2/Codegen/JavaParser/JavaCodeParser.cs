@@ -2,7 +2,7 @@
 
 namespace JavaParser;
 
-public class JavaCodeParser
+public class JavaCodeParser : IJavaCodeParser
 {
     private readonly IControllerParser _controllerParser;
     private readonly IRequestModelParser _requestModelParser;
