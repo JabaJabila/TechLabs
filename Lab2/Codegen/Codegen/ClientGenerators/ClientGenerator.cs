@@ -81,15 +81,6 @@ public class ClientGenerator : IClientGenerator
                     Token(SyntaxKind.PrivateKeyword),
                     Token(SyntaxKind.ReadOnlyKeyword)
                 })),
-            FieldDeclaration(VariableDeclaration(PredefinedType(
-                        Token(SyntaxKind.StringKeyword)))
-                    .WithVariables(SingletonSeparatedList<VariableDeclaratorSyntax>(
-                        VariableDeclarator(Identifier("_baseUrl")))))
-                .WithModifiers(TokenList(new[]
-                {
-                    Token(SyntaxKind.PrivateKeyword),
-                    Token(SyntaxKind.ReadOnlyKeyword)
-                })),
             FieldDeclaration(VariableDeclaration(
                         IdentifierName("JsonSerializerOptions"))
                     .WithVariables(SingletonSeparatedList<VariableDeclaratorSyntax>(
@@ -106,21 +97,11 @@ public class ClientGenerator : IClientGenerator
                 {
                     Token(SyntaxKind.PrivateKeyword),
                     Token(SyntaxKind.ReadOnlyKeyword)
-                })),
-            ConstructorDeclaration(Identifier(controllerData.Name))
-                .WithModifiers(TokenList(Token(SyntaxKind.PublicKeyword)))
-                .WithParameterList(ParameterList(SingletonSeparatedList<ParameterSyntax>(
-                    Parameter(Identifier("baseUrl"))
-                        .WithType(PredefinedType(Token(SyntaxKind.StringKeyword))))))
-                .WithBody(Block(SingletonList<StatementSyntax>(
-                    ExpressionStatement(AssignmentExpression(
-                        SyntaxKind.SimpleAssignmentExpression,
-                        IdentifierName("_baseUrl"),
-                        IdentifierName("baseUrl"))))))
+                }))
         };
         memberList.AddRange(
             controllerData.MethodModels.Select(controllerDataMethodModel
-                => _methodGenerator.GenerateMethod(baseUrl, controllerDataMethodModel)));
+                => _methodGenerator.GenerateMethod($"{baseUrl}/{controllerData.BaseUrl}", controllerDataMethodModel)));
 
         return memberList.ToArray();
     }

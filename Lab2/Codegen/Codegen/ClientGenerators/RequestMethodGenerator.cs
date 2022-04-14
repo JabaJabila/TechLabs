@@ -1,4 +1,5 @@
 ﻿using JavaParser.SemanticDataModels;
+using JavaParser.Tools;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -18,7 +19,7 @@ public class RequestMethodGenerator : IRequestMethodGenerator
             .WithParameterList(
                 ParameterList(SeparatedList<ParameterSyntax>(GetMethodArguments(methodModel))))
             .WithBody(
-                Block(GenerateBody(baseUrl, methodModel)));
+                Block(GenerateBody(methodModel, baseUrl)));
     }
     
     private SyntaxNodeOrToken[] GetMethodArguments(RequestMethodModel methodModel)
@@ -34,8 +35,160 @@ public class RequestMethodGenerator : IRequestMethodGenerator
         return result;
     }
     
-    private StatementSyntax[] GenerateBody(string baseUrl, RequestMethodModel methodModel)
+    private StatementSyntax[] GenerateBody(RequestMethodModel methodModel, string baseUrl)
     {
-        throw new NotImplementedException();
+        var statements = new List<StatementSyntax>();
+        var queryArgs = methodModel.Arguments.Where(a => a.RequestType == RequestArgumentType.Query).ToList();
+        if (queryArgs.Count > 0)
+        {
+            statements.Add(
+                LocalDeclarationStatement(VariableDeclaration(IdentifierName(
+                        Identifier(TriviaList(), SyntaxKind.VarKeyword, "var", "var", TriviaList())))
+                    .WithVariables(SingletonSeparatedList<VariableDeclaratorSyntax>(
+                        VariableDeclarator(Identifier("query"))
+                            .WithInitializer(EqualsValueClause(InvocationExpression(
+                                    MemberAccessExpression(SyntaxKind.SimpleMemberAccessExpression, 
+                                        IdentifierName("HttpUtility"),
+                                        IdentifierName("ParseQueryString")))
+                                .WithArgumentList(ArgumentList(SingletonSeparatedList<ArgumentSyntax>(Argument(
+                                    MemberAccessExpression(SyntaxKind.SimpleMemberAccessExpression,
+                                        PredefinedType(Token(SyntaxKind.StringKeyword)),
+                                        IdentifierName("Empty"))))))))))));
+            
+            queryArgs.ForEach(a =>
+            {
+                statements.Add(ExpressionStatement(
+                    AssignmentExpression(
+                        SyntaxKind.SimpleAssignmentExpression, ElementAccessExpression(
+                                IdentifierName("query"))
+                            .WithArgumentList(
+                                BracketedArgumentList(SingletonSeparatedList<ArgumentSyntax>(
+                                    Argument(LiteralExpression(SyntaxKind.StringLiteralExpression, Literal(a.Name)))))),
+                                            InvocationExpression(MemberAccessExpression(
+                                                    SyntaxKind.SimpleMemberAccessExpression, 
+                                                    PredefinedType(Token(SyntaxKind.StringKeyword)),
+                                                    IdentifierName("Join")))
+                                            .WithArgumentList(
+                                                ArgumentList(SeparatedList<ArgumentSyntax>(
+                                                    new SyntaxNodeOrToken[]{
+                                                            Argument(LiteralExpression(
+                                                                    SyntaxKind.CharacterLiteralExpression,
+                                                                    Literal(','))),
+                                                            Token(SyntaxKind.CommaToken),
+                                                            Argument(IdentifierName(a.Name))}))))));
+            });
+        }
+        else
+        {
+            statements.Add(
+                LocalDeclarationStatement(
+                    VariableDeclaration(IdentifierName(Identifier(TriviaList(), SyntaxKind.VarKeyword,
+                                    "var", "var", TriviaList())))
+                        .WithVariables(SingletonSeparatedList(VariableDeclarator(Identifier("query"))
+                                    .WithInitializer(EqualsValueClause(MemberAccessExpression(
+                                                SyntaxKind.SimpleMemberAccessExpression,
+                                                PredefinedType(Token(SyntaxKind.StringKeyword)),
+                                                IdentifierName("Empty"))))))));
+        }
+
+
+        if (methodModel.RequestType == RequestType.Post)
+        {
+            var bodyArg = methodModel.Arguments.FirstOrDefault(a => a.RequestType == RequestArgumentType.Body);
+            var identifier = "\"\"";
+            if (bodyArg is not null) identifier = bodyArg.Name;
+            
+            statements.Add(LocalDeclarationStatement(
+                    VariableDeclaration(IdentifierName(
+                                Identifier(TriviaList(), SyntaxKind.VarKeyword, "var", "var", TriviaList())))
+                        .WithVariables(
+                            SingletonSeparatedList<VariableDeclaratorSyntax>(VariableDeclarator(Identifier("content"))
+                                    .WithInitializer(EqualsValueClause(
+                                            InvocationExpression(MemberAccessExpression(
+                                                        SyntaxKind.SimpleMemberAccessExpression,
+                                                        IdentifierName("JsonContent"),
+                                                        IdentifierName("Create")))
+                                                .WithArgumentList(ArgumentList(
+                                                        SingletonSeparatedList<ArgumentSyntax>(
+                                                            Argument(IdentifierName(identifier)))))))))));
+        }
+        
+        statements.Add(
+            LocalDeclarationStatement(VariableDeclaration(IdentifierName(
+                    Identifier(TriviaList(), SyntaxKind.VarKeyword, "var", "var", TriviaList())))
+                .WithVariables(SingletonSeparatedList<VariableDeclaratorSyntax>(VariableDeclarator(Identifier("response"))
+                    .WithInitializer(EqualsValueClause(
+                        AwaitExpression(InvocationExpression(MemberAccessExpression(
+                                SyntaxKind.SimpleMemberAccessExpression, 
+                                IdentifierName("_httpClient"),
+                                IdentifierName(SelectRequestType(methodModel))))
+                            .WithArgumentList(ArgumentList(SeparatedList<ArgumentSyntax>(
+                                                                GetRequestCallArguments(methodModel, baseUrl)))))))))));
+
+        if (methodModel.ReturnType != "void")
+        {
+            statements.Add(ReturnStatement(BinaryExpression(SyntaxKind.CoalesceExpression,
+                InvocationExpression(MemberAccessExpression(
+                        SyntaxKind.SimpleMemberAccessExpression, IdentifierName("JsonSerializer"),
+                        GenericName(Identifier("Deserialize"))
+                            .WithTypeArgumentList(TypeArgumentList(
+                                SingletonSeparatedList<TypeSyntax>(
+                                    IdentifierName(methodModel.ReturnType))))))
+                    .WithArgumentList(ArgumentList(SeparatedList<ArgumentSyntax>(new SyntaxNodeOrToken[]{
+                        Argument(AwaitExpression(InvocationExpression(MemberAccessExpression(
+                            SyntaxKind.SimpleMemberAccessExpression, MemberAccessExpression(
+                                SyntaxKind.SimpleMemberAccessExpression, IdentifierName("response"),
+                                IdentifierName("Content")), IdentifierName("ReadAsStringAsync"))))),
+                        Token(SyntaxKind.CommaToken), Argument(IdentifierName("_serializerOptions"))}))),
+                ThrowExpression(ObjectCreationExpression(IdentifierName("InvalidOperationException"))
+                    .WithArgumentList(ArgumentList(SingletonSeparatedList(
+                        Argument(LiteralExpression(SyntaxKind.StringLiteralExpression, 
+                            Literal("Request returned null"))))))))));
+        }
+        
+        return statements.ToArray();
+    }
+
+    private string SelectRequestType(RequestMethodModel methodModel)
+    {
+        return methodModel.RequestType switch
+        {
+            RequestType.Get => "GetAsync",
+            RequestType.Post => "PostAsync",
+            RequestType.Patch => "PatchAsync",
+            RequestType.Put => "PutAsync",
+            RequestType.Delete => "DeleteAsync",
+            _ => throw new NotSupportedException("Request type not supported"),
+        };
+    }
+
+    private SyntaxNodeOrToken[] GetRequestCallArguments(RequestMethodModel methodModel, string baseUrl)
+    {
+        var uri = '/' + methodModel.Url;
+        var result = new List<SyntaxNodeOrToken>();
+        result.Add(Argument(
+            BinaryExpression(SyntaxKind.AddExpression,  
+                InterpolatedStringExpression(
+                        Token(SyntaxKind.InterpolatedStringStartToken))
+                    .WithContents(SingletonList<InterpolatedStringContentSyntax>(InterpolatedStringText()
+                        .WithTextToken(Token(TriviaList(),
+                            SyntaxKind.InterpolatedStringTextToken, 
+                            $"{baseUrl}/{methodModel.Url}",
+                            $"{baseUrl}/{methodModel.Url}",
+                            TriviaList())))),
+                InterpolatedStringExpression(Token(SyntaxKind.InterpolatedStringStartToken))
+                    .WithContents(List(
+                        new InterpolatedStringContentSyntax[]{
+                            InterpolatedStringText().WithTextToken(
+                                Token(TriviaList(),
+                                    SyntaxKind.InterpolatedStringTextToken, "?", "?", TriviaList())),
+                            Interpolation(IdentifierName("query"))})))));
+
+
+        if (methodModel.RequestType != RequestType.Post) return result.ToArray();
+        result.Add(Token(SyntaxKind.CommaToken));
+        result.Add(Argument(IdentifierName("content")));
+
+        return result.ToArray();
     }
 }
