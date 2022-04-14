@@ -44,13 +44,13 @@ public class RequestMethodGenerator : IRequestMethodGenerator
             statements.Add(
                 LocalDeclarationStatement(VariableDeclaration(IdentifierName(
                         Identifier(TriviaList(), SyntaxKind.VarKeyword, "var", "var", TriviaList())))
-                    .WithVariables(SingletonSeparatedList<VariableDeclaratorSyntax>(
+                    .WithVariables(SingletonSeparatedList(
                         VariableDeclarator(Identifier("query"))
                             .WithInitializer(EqualsValueClause(InvocationExpression(
                                     MemberAccessExpression(SyntaxKind.SimpleMemberAccessExpression, 
                                         IdentifierName("HttpUtility"),
                                         IdentifierName("ParseQueryString")))
-                                .WithArgumentList(ArgumentList(SingletonSeparatedList<ArgumentSyntax>(Argument(
+                                .WithArgumentList(ArgumentList(SingletonSeparatedList(Argument(
                                     MemberAccessExpression(SyntaxKind.SimpleMemberAccessExpression,
                                         PredefinedType(Token(SyntaxKind.StringKeyword)),
                                         IdentifierName("Empty"))))))))))));
@@ -62,7 +62,7 @@ public class RequestMethodGenerator : IRequestMethodGenerator
                         SyntaxKind.SimpleAssignmentExpression, ElementAccessExpression(
                                 IdentifierName("query"))
                             .WithArgumentList(
-                                BracketedArgumentList(SingletonSeparatedList<ArgumentSyntax>(
+                                BracketedArgumentList(SingletonSeparatedList(
                                     Argument(LiteralExpression(SyntaxKind.StringLiteralExpression, Literal(a.Name)))))),
                                             InvocationExpression(MemberAccessExpression(
                                                     SyntaxKind.SimpleMemberAccessExpression, 
@@ -102,21 +102,21 @@ public class RequestMethodGenerator : IRequestMethodGenerator
                     VariableDeclaration(IdentifierName(
                                 Identifier(TriviaList(), SyntaxKind.VarKeyword, "var", "var", TriviaList())))
                         .WithVariables(
-                            SingletonSeparatedList<VariableDeclaratorSyntax>(VariableDeclarator(Identifier("content"))
+                            SingletonSeparatedList(VariableDeclarator(Identifier("content"))
                                     .WithInitializer(EqualsValueClause(
                                             InvocationExpression(MemberAccessExpression(
                                                         SyntaxKind.SimpleMemberAccessExpression,
                                                         IdentifierName("JsonContent"),
                                                         IdentifierName("Create")))
                                                 .WithArgumentList(ArgumentList(
-                                                        SingletonSeparatedList<ArgumentSyntax>(
+                                                        SingletonSeparatedList(
                                                             Argument(IdentifierName(identifier)))))))))));
         }
         
         statements.Add(
             LocalDeclarationStatement(VariableDeclaration(IdentifierName(
                     Identifier(TriviaList(), SyntaxKind.VarKeyword, "var", "var", TriviaList())))
-                .WithVariables(SingletonSeparatedList<VariableDeclaratorSyntax>(VariableDeclarator(Identifier("response"))
+                .WithVariables(SingletonSeparatedList(VariableDeclarator(Identifier("response"))
                     .WithInitializer(EqualsValueClause(
                         AwaitExpression(InvocationExpression(MemberAccessExpression(
                                 SyntaxKind.SimpleMemberAccessExpression, 
@@ -164,25 +164,26 @@ public class RequestMethodGenerator : IRequestMethodGenerator
 
     private SyntaxNodeOrToken[] GetRequestCallArguments(RequestMethodModel methodModel, string baseUrl)
     {
-        var uri = '/' + methodModel.Url;
-        var result = new List<SyntaxNodeOrToken>();
-        result.Add(Argument(
-            BinaryExpression(SyntaxKind.AddExpression,  
-                InterpolatedStringExpression(
-                        Token(SyntaxKind.InterpolatedStringStartToken))
-                    .WithContents(SingletonList<InterpolatedStringContentSyntax>(InterpolatedStringText()
-                        .WithTextToken(Token(TriviaList(),
-                            SyntaxKind.InterpolatedStringTextToken, 
-                            $"{baseUrl}/{methodModel.Url}",
-                            $"{baseUrl}/{methodModel.Url}",
-                            TriviaList())))),
-                InterpolatedStringExpression(Token(SyntaxKind.InterpolatedStringStartToken))
-                    .WithContents(List(
-                        new InterpolatedStringContentSyntax[]{
-                            InterpolatedStringText().WithTextToken(
-                                Token(TriviaList(),
-                                    SyntaxKind.InterpolatedStringTextToken, "?", "?", TriviaList())),
-                            Interpolation(IdentifierName("query"))})))));
+        var result = new List<SyntaxNodeOrToken>
+        {
+            Argument(
+                BinaryExpression(SyntaxKind.AddExpression,  
+                    InterpolatedStringExpression(
+                            Token(SyntaxKind.InterpolatedStringStartToken))
+                        .WithContents(SingletonList<InterpolatedStringContentSyntax>(InterpolatedStringText()
+                            .WithTextToken(Token(TriviaList(),
+                                SyntaxKind.InterpolatedStringTextToken, 
+                                $"{baseUrl}/{methodModel.Url}",
+                                $"{baseUrl}/{methodModel.Url}",
+                                TriviaList())))),
+                    InterpolatedStringExpression(Token(SyntaxKind.InterpolatedStringStartToken))
+                        .WithContents(List(
+                            new InterpolatedStringContentSyntax[]{
+                                InterpolatedStringText().WithTextToken(
+                                    Token(TriviaList(),
+                                        SyntaxKind.InterpolatedStringTextToken, "?", "?", TriviaList())),
+                                Interpolation(IdentifierName("query"))}))))
+        };
 
 
         if (methodModel.RequestType != RequestType.Post) return result.ToArray();

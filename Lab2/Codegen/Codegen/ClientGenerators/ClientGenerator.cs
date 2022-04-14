@@ -36,7 +36,7 @@ public class ClientGenerator : IClientGenerator
         var newNamespace = rootNamespace + "." + "GeneratedClient";
         
         var tree = SyntaxTree(CompilationUnit()
-                .WithUsings(List<UsingDirectiveSyntax>(new UsingDirectiveSyntax[]{
+                .WithUsings(List(new []{
                     UsingDirective(QualifiedName(QualifiedName(
                         QualifiedName(
                             IdentifierName("System"),
@@ -71,7 +71,7 @@ public class ClientGenerator : IClientGenerator
         var memberList = new List<MemberDeclarationSyntax>
         {
             FieldDeclaration(VariableDeclaration(IdentifierName("HttpClient"))
-                    .WithVariables(SingletonSeparatedList<VariableDeclaratorSyntax>(VariableDeclarator(
+                    .WithVariables(SingletonSeparatedList(VariableDeclarator(
                             Identifier("_httpClient"))
                         .WithInitializer(EqualsValueClause(ObjectCreationExpression(
                                 IdentifierName("HttpClient"))
@@ -83,7 +83,7 @@ public class ClientGenerator : IClientGenerator
                 })),
             FieldDeclaration(VariableDeclaration(
                         IdentifierName("JsonSerializerOptions"))
-                    .WithVariables(SingletonSeparatedList<VariableDeclaratorSyntax>(
+                    .WithVariables(SingletonSeparatedList(
                         VariableDeclarator(Identifier("_serializerOptions"))
                             .WithInitializer(EqualsValueClause(ObjectCreationExpression(
                                     IdentifierName("JsonSerializerOptions"))

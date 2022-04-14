@@ -47,7 +47,7 @@ public class MethodInfoParser : IMethodInfoParser
         var result = new List<(string, RequestType)>();
         foreach (var attribute in attributesClear)
         {
-            var stringType = attribute[(attribute.IndexOf('@') + 1)..attribute.IndexOf("Mapping")];
+            var stringType = attribute[(attribute.IndexOf('@') + 1)..attribute.IndexOf("Mapping", StringComparison.Ordinal)];
             if (stringType == "Request") continue;
             var url = attribute[(attribute.IndexOf('\"') + 1)..attribute.LastIndexOf('\"')];
             
