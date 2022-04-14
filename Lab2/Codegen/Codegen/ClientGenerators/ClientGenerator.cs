@@ -9,6 +9,7 @@ namespace Codegen.ClientGenerators;
 
 public class ClientGenerator : IClientGenerator
 {
+    private const string NamespaceLastName = "GeneratedClient";
     private readonly IJavaCodeParser _parser;
     private readonly IRequestMethodGenerator _methodGenerator;
 
@@ -20,7 +21,7 @@ public class ClientGenerator : IClientGenerator
 
     public void GenerateClient(string pathToControllers, string pathToProject, string rootNamespace, string baseUrl)
     {
-        Directory.CreateDirectory(Path.Combine(pathToProject, "GeneratedClient"));
+        Directory.CreateDirectory(Path.Combine(pathToProject, NamespaceLastName));
         var controllerInfo = _parser.ParseAllControllers(pathToControllers);
 
         foreach (var controller in controllerInfo)
@@ -29,11 +30,11 @@ public class ClientGenerator : IClientGenerator
 
     private void GenerateClientClass(
         ControllerModel controllerData,
-        string pathToProject, 
+        string pathToProject,
         string rootNamespace, 
         string baseUrl)
     {
-        var newNamespace = rootNamespace + "." + "GeneratedClient";
+        var newNamespace = rootNamespace + "." + NamespaceLastName;
         
         var tree = SyntaxTree(CompilationUnit()
                 .WithUsings(List(new []{
@@ -63,7 +64,7 @@ public class ClientGenerator : IClientGenerator
                 .NormalizeWhitespace());
 
         File.WriteAllText(
-            Path.Combine(pathToProject, "GeneratedClient", $"{controllerData.Name}.cs"), tree.GetText().ToString());
+            Path.Combine(pathToProject, NamespaceLastName, $"{controllerData.Name}.cs"), tree.GetText().ToString());
     }
 
     private MemberDeclarationSyntax[] GenerateMembers(ControllerModel controllerData, string baseUrl)

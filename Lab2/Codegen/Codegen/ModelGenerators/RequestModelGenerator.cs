@@ -9,6 +9,7 @@ namespace Codegen.ModelGenerators;
 
 public class RequestModelGenerator : IRequestModelGenerator
 {
+    private const string NamespaceLastName = "GeneratedModels";
     private readonly IJavaCodeParser _parser;
 
     public RequestModelGenerator(IJavaCodeParser parser)
@@ -18,7 +19,7 @@ public class RequestModelGenerator : IRequestModelGenerator
 
     public void GenerateModels(string pathToModels, string pathToProject, string rootNamespace)
     {
-        Directory.CreateDirectory(Path.Combine(pathToProject, "GeneratedModels"));
+        Directory.CreateDirectory(Path.Combine(pathToProject, NamespaceLastName));
         var modelInfo = _parser.ParseAllRequestModels(pathToModels);
         foreach (var requestModel in modelInfo)
             GenerateModel(requestModel, pathToProject, rootNamespace);
@@ -26,7 +27,7 @@ public class RequestModelGenerator : IRequestModelGenerator
 
     private void GenerateModel(RequestModel modelData, string pathToProject, string rootNamespace)
     {
-        var newNamespace = rootNamespace + "." + "GeneratedModels";
+        var newNamespace = rootNamespace + "." + NamespaceLastName;
         
         var tree = SyntaxTree(CompilationUnit()
             .WithMembers(SingletonList<MemberDeclarationSyntax>(
@@ -40,7 +41,8 @@ public class RequestModelGenerator : IRequestModelGenerator
             .NormalizeWhitespace()
         );
 
-        File.WriteAllText(Path.Combine(pathToProject, "GeneratedModels", $"{modelData.ModelName}.cs"), tree.GetText().ToString());
+        File.WriteAllText(
+            Path.Combine(pathToProject, NamespaceLastName, $"{modelData.ModelName}.cs"), tree.GetText().ToString());
     }
 
     private MemberDeclarationSyntax[] GenerateConstructorAndProperties(RequestModel modelData)
