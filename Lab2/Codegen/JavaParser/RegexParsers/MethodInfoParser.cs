@@ -30,7 +30,7 @@ public class MethodInfoParser : IMethodInfoParser
         {
             var methodModel = new RequestMethodModel();
             var words = method.Split(' ');
-            methodModel.Name = words[2];
+            methodModel.Name = char.ToUpper(words[2][0]) + words[2][1..];
             methodModel.ReturnType = _typeMapper.MapType(words[1]);
             (methodModel.Url, methodModel.RequestType) = requestInfo[methodCounter];
             var args = GetArgumentInfo(method);

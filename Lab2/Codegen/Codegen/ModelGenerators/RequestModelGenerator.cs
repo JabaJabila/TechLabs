@@ -7,7 +7,7 @@ using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
 namespace Codegen.ModelGenerators;
 
-public class RequestModelGenerator
+public class RequestModelGenerator : IRequestModelGenerator
 {
     private readonly IJavaCodeParser _parser;
 
@@ -86,6 +86,7 @@ public class RequestModelGenerator
                 Parameter(Identifier(char.ToLower(name[0]) + name[1..]))
                 .WithType(IdentifierName(type))).ToList();
 
+        if (parameters.Count * 2 - 1 <= 0) return Array.Empty<SyntaxNodeOrToken>();
         var result = new SyntaxNodeOrToken[parameters.Count * 2 - 1];
         for (int i = 0; i < result.Length; i++)
             result[i] = i % 2 == 0 ? parameters[i / 2] : Token(SyntaxKind.CommaToken);

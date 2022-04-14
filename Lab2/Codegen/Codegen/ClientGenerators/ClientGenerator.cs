@@ -7,7 +7,7 @@ using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
 namespace Codegen.ClientGenerators;
 
-public class ClientGenerator
+public class ClientGenerator : IClientGenerator
 {
     private readonly IJavaCodeParser _parser;
     private readonly IRequestMethodGenerator _methodGenerator;
