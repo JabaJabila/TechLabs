@@ -1,6 +1,8 @@
 **/target/*
 Lab1/Task2Scala/target/*
 Lab1/Task2Scala/project/*
+Lab2/**/.mvn/**
+Lab2/**/lib/**
 **/.idea/*
 *.o
 # Created by https://www.toptal.com/developers/gitignore/api/visualstudio,rider,intellij
