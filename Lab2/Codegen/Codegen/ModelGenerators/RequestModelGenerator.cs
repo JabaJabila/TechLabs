@@ -1,9 +1,9 @@
-﻿using JavaParser;
-using JavaParser.SemanticDataModels;
-using Microsoft.CodeAnalysis;
+﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
+using IJavaCodeParser = Codegen.JavaParser.IJavaCodeParser;
+using RequestModel = Codegen.JavaParser.SemanticDataModels.RequestModel;
 
 namespace Codegen.ModelGenerators;
 
@@ -17,15 +17,15 @@ public class RequestModelGenerator : IRequestModelGenerator
         _parser = parser ?? throw new ArgumentNullException(nameof(parser));
     }
 
-    public void GenerateModels(string pathToModels, string pathToProject, string rootNamespace)
+    public IReadOnlyCollection<(SyntaxTree, string)> GenerateModels(string pathToModels, string pathToProject, string rootNamespace)
     {
         Directory.CreateDirectory(Path.Combine(pathToProject, NamespaceLastName));
         var modelInfo = _parser.ParseAllRequestModels(pathToModels);
-        foreach (var requestModel in modelInfo)
-            GenerateModel(requestModel, pathToProject, rootNamespace);
+        return modelInfo.Select(m 
+            => GenerateModel(m, rootNamespace)).ToList();
     }
 
-    private void GenerateModel(RequestModel modelData, string pathToProject, string rootNamespace)
+    private (SyntaxTree, string) GenerateModel(RequestModel modelData, string rootNamespace)
     {
         var newNamespace = rootNamespace + "." + NamespaceLastName;
         
@@ -40,9 +40,8 @@ public class RequestModelGenerator : IRequestModelGenerator
                 .WithMembers(new SyntaxList<MemberDeclarationSyntax>(GenerateConstructorAndProperties(modelData)))))))
             .NormalizeWhitespace()
         );
-
-        File.WriteAllText(
-            Path.Combine(pathToProject, NamespaceLastName, $"{modelData.ModelName}.cs"), tree.GetText().ToString());
+        
+        return (tree, modelData.ModelName);
     }
 
     private MemberDeclarationSyntax[] GenerateConstructorAndProperties(RequestModel modelData)

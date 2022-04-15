@@ -1,9 +1,10 @@
-﻿using JavaParser.SemanticDataModels;
-using JavaParser.Tools;
-using Microsoft.CodeAnalysis;
+﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
+using RequestArgumentType = Codegen.JavaParser.Tools.RequestArgumentType;
+using RequestMethodModel = Codegen.JavaParser.SemanticDataModels.RequestMethodModel;
+using RequestType = Codegen.JavaParser.Tools.RequestType;
 
 namespace Codegen.ClientGenerators;
 

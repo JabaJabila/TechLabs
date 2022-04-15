@@ -1,6 +1,12 @@
-﻿namespace Codegen;
+﻿using Microsoft.CodeAnalysis;
+
+namespace Codegen;
 
 public interface IClientGenerator
 {
-    void GenerateClient(string pathToControllers, string pathToProject, string rootNamespace, string baseUrl);
+    IReadOnlyCollection<(SyntaxTree, string)> GenerateClient(
+        string pathToControllers, 
+        string pathToProject, 
+        string rootNamespace, 
+        string baseUrl);
 }

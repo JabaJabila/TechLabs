@@ -1,4 +1,4 @@
-﻿namespace JavaParser.SemanticDataModels;
+﻿namespace Codegen.JavaParser.SemanticDataModels;
 
 public class RequestModel
 {

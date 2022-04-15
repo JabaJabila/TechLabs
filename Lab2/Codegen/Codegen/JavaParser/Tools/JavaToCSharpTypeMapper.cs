@@ -1,4 +1,4 @@
-﻿namespace JavaParser.Tools;
+﻿namespace Codegen.JavaParser.Tools;
 
 public class JavaToCSharpTypeMapper : IJavaToCSharpTypeMapper
 {

@@ -1,6 +1,8 @@
-﻿namespace Codegen;
+﻿using Microsoft.CodeAnalysis;
+
+namespace Codegen;
 
 public interface IRequestModelGenerator
 {
-    void GenerateModels(string pathToModels, string pathToProject, string rootNamespace);
+    IReadOnlyCollection<(SyntaxTree, string)> GenerateModels(string pathToModels, string pathToProject, string rootNamespace);
 }

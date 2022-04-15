@@ -1,6 +1,6 @@
-﻿using JavaParser.SemanticDataModels;
+﻿using Codegen.JavaParser.SemanticDataModels;
 
-namespace JavaParser;
+namespace Codegen.JavaParser;
 
 public class JavaCodeParser : IJavaCodeParser
 {

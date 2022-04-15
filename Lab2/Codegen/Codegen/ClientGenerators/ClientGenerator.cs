@@ -1,9 +1,9 @@
-﻿using JavaParser;
-using JavaParser.SemanticDataModels;
-using Microsoft.CodeAnalysis;
+﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
+using ControllerModel = Codegen.JavaParser.SemanticDataModels.ControllerModel;
+using IJavaCodeParser = Codegen.JavaParser.IJavaCodeParser;
 
 namespace Codegen.ClientGenerators;
 
@@ -19,18 +19,22 @@ public class ClientGenerator : IClientGenerator
         _methodGenerator = methodGenerator ?? throw new ArgumentNullException(nameof(methodGenerator));
     }
 
-    public void GenerateClient(string pathToControllers, string pathToProject, string rootNamespace, string baseUrl)
+    public IReadOnlyCollection<(SyntaxTree, string)> GenerateClient(
+        string pathToControllers, 
+        string pathToProject, 
+        string rootNamespace, 
+        string baseUrl)
     {
         Directory.CreateDirectory(Path.Combine(pathToProject, NamespaceLastName));
         var controllerInfo = _parser.ParseAllControllers(pathToControllers);
 
-        foreach (var controller in controllerInfo)
-            GenerateClientClass(controller, pathToProject, rootNamespace, baseUrl);
+        return controllerInfo.Select(c
+            => GenerateClientClass(c, rootNamespace, baseUrl)).ToList();
+
     }
 
-    private void GenerateClientClass(
+    private (SyntaxTree, string) GenerateClientClass(
         ControllerModel controllerData,
-        string pathToProject,
         string rootNamespace, 
         string baseUrl)
     {
@@ -63,8 +67,7 @@ public class ClientGenerator : IClientGenerator
                     .WithMembers(new SyntaxList<MemberDeclarationSyntax>(GenerateMembers(controllerData, baseUrl)))))))
                 .NormalizeWhitespace());
 
-        File.WriteAllText(
-            Path.Combine(pathToProject, NamespaceLastName, $"{controllerData.Name}.cs"), tree.GetText().ToString());
+        return (tree, controllerData.Name);
     }
 
     private MemberDeclarationSyntax[] GenerateMembers(ControllerModel controllerData, string baseUrl)

@@ -1,6 +1,6 @@
-﻿using JavaParser.Tools;
+﻿using Codegen.JavaParser.Tools;
 
-namespace JavaParser.SemanticDataModels;
+namespace Codegen.JavaParser.SemanticDataModels;
 
 public class RequestMethodModel
 {

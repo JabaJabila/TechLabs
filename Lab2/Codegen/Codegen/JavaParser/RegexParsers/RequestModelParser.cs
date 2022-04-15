@@ -1,8 +1,8 @@
 ﻿using System.Text.RegularExpressions;
-using JavaParser.SemanticDataModels;
-using JavaParser.Tools;
+using Codegen.JavaParser.SemanticDataModels;
+using Codegen.JavaParser.Tools;
 
-namespace JavaParser.RegexParsers;
+namespace Codegen.JavaParser.RegexParsers;
 
 public class RequestModelParser : IRequestModelParser
 {

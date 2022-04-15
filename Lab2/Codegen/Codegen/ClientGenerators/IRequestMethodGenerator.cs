@@ -1,5 +1,5 @@
-﻿using JavaParser.SemanticDataModels;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
+﻿using Microsoft.CodeAnalysis.CSharp.Syntax;
+using RequestMethodModel = Codegen.JavaParser.SemanticDataModels.RequestMethodModel;
 
 namespace Codegen.ClientGenerators;
 
