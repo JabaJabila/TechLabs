@@ -8,8 +8,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="Evolution\Breeding" />
-      <Folder Include="Evolution\Environment" />
       <Folder Include="Genes\ActiveGenes" />
       <Folder Include="Genes\PassiveGenes" />
     </ItemGroup>
