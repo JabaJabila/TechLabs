@@ -4,5 +4,5 @@ namespace AlgorithmLogic.Evolution.Breeding;
 
 public interface IMutator
 {
-    void Mutate(Chromosome chromosome);
+    Chromosome Mutate(Chromosome chromosome);
 }
