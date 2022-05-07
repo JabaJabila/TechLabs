@@ -8,9 +8,10 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="Evolution" />
-      <Folder Include="Genes" />
-      <Folder Include="Map" />
+      <Folder Include="Evolution\Breeding" />
+      <Folder Include="Evolution\Environment" />
+      <Folder Include="Genes\ActiveGenes" />
+      <Folder Include="Genes\PassiveGenes" />
     </ItemGroup>
 
 </Project>
