@@ -39,7 +39,7 @@ public class Location : IEquatable<Location>
         var x = (X + other.X) % _xLimit;
         var y = (Y + other.Y) % _yLimit;
 
-        return (int) Math.Ceiling(Math.Sqrt(x * x + y * y));
+        return (int) Math.Floor(Math.Sqrt(x * x + y * y));
     }
 
     public bool Equals(Location? other)
