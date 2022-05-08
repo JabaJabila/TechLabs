@@ -34,6 +34,14 @@ public class Location : IEquatable<Location>
         return new Location((uint)((x + X) % _xLimit), (uint)((y + Y) % _yLimit));
     }
 
+    public int DistanceTo(Location other)
+    {
+        var x = (X + other.X) % _xLimit;
+        var y = (Y + other.Y) % _yLimit;
+
+        return (int) Math.Ceiling(Math.Sqrt(x * x + y * y));
+    }
+
     public bool Equals(Location? other)
     {
         if (ReferenceEquals(null, other)) return false;

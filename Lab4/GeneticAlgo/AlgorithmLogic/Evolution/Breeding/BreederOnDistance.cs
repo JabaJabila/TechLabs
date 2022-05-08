@@ -104,6 +104,33 @@ public class BreederOnDistance : IBreeder
 
     private List<(Creature, Creature)> GetFertilePairs(Population population, out List<Creature> lonely)
     {
-        throw new NotImplementedException();
+        lonely = new List<Creature>();
+        var remain = population.AliveCreatures.ToList();
+        var pairs = new List<(Creature, Creature)>();
+        
+        while (remain.Count > 1)
+        {
+            var isAlone = true;
+            var creature1 = remain.First();
+            foreach (var creature2 in remain.Skip(1))
+            {
+                if (!(creature1.Location.DistanceTo(creature2.Location) < _creatureConfiguration.PartnerMaxDistance))
+                    continue;
+                
+                remain.Remove(creature1);
+                remain.Remove(creature2);
+                pairs.Add((creature1, creature2));
+                isAlone = false;
+                break;
+            }
+
+            if (!isAlone) continue;
+            
+            remain.Remove(creature1);
+            lonely.Add(creature1);
+        }
+
+        lonely.AddRange(remain);
+        return pairs;
     }
 }
