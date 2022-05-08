@@ -13,12 +13,14 @@ public class Population
         IPopulationConfiguration populationConfiguration,
         ICreatureConfiguration creatureConfiguration,
         IGeneFactory geneFactory,
-        IMapInspector mapInspector)
+        IMapInspector mapInspector,
+        uint generationNumber = 1)
     {
         _configuration = populationConfiguration ?? throw new ArgumentNullException(nameof(populationConfiguration));
         ArgumentNullException.ThrowIfNull(creatureConfiguration, nameof(creatureConfiguration));
         ArgumentNullException.ThrowIfNull(geneFactory, nameof(geneFactory));
         ArgumentNullException.ThrowIfNull(mapInspector, nameof(mapInspector));
+        GenerationNumber = generationNumber;
         
         _creatures = new Creature[_configuration.PopulationAmount];
         
@@ -29,6 +31,8 @@ public class Population
                 new Chromosome(creatureConfiguration.GenesInChromosome, geneFactory));
         }
     }
+    
+    public uint GenerationNumber { get; }
 
     public IReadOnlyCollection<Creature> AllCreatures => _creatures;
     
