@@ -1,4 +1,4 @@
-﻿namespace AlgorithmLogic.Evolution.Configuration;
+﻿namespace AlgorithmLogic.Configuration;
 
 public interface IMapConfiguration
 {

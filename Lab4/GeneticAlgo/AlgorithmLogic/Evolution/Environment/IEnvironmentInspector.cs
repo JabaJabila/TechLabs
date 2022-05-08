@@ -1,5 +1,5 @@
 ﻿namespace AlgorithmLogic.Evolution.Environment;
 
-public interface IEnvironment
+public interface IEnvironmentInspector
 {
 }

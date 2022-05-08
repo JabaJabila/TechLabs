@@ -1,4 +1,4 @@
-﻿using AlgorithmLogic.Evolution.Configuration;
+﻿using AlgorithmLogic.Configuration;
 using AlgorithmLogic.Tools.Exceptions;
 
 namespace AlgorithmLogic.Map.MapEntities;

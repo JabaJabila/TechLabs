@@ -1,4 +1,4 @@
-﻿using AlgorithmLogic.Evolution.Configuration;
+﻿using AlgorithmLogic.Configuration;
 using AlgorithmLogic.Genes;
 using AlgorithmLogic.Map;
 
@@ -30,6 +30,16 @@ public class Population
                 mapInspector.GetFreeLocation(),
                 new Chromosome(creatureConfiguration.GenesInChromosome, geneFactory));
         }
+    }
+    
+    public Population(
+        IPopulationConfiguration populationConfiguration, 
+        Creature[] creatures,
+        uint generationNumber = 1)
+    {
+        _configuration = populationConfiguration ?? throw new ArgumentNullException(nameof(populationConfiguration));
+        _creatures = creatures ?? throw new ArgumentNullException(nameof(creatures));
+        GenerationNumber = generationNumber;
     }
     
     public uint GenerationNumber { get; }
