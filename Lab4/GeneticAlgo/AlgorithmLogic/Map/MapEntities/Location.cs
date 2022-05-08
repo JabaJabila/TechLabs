@@ -9,7 +9,7 @@ public class Location : IEquatable<Location>
     private static uint _yLimit;
     private static bool _configured;
     
-    public Location(uint x, uint y)
+    public Location(uint x = 0, uint y = 0)
     {
         if (!_configured) 
             throw new GeneticAlgoException("Can't create location until Location.SetConfigurations() is done");

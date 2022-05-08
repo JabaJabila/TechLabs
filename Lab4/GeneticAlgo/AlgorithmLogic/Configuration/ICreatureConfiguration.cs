@@ -3,7 +3,7 @@
 public interface ICreatureConfiguration
 {
     uint GenesInChromosome { get; }
-    float PartnerSimilarity { get; }
+    float PartnerMaxDistance { get; }
     float ParthenogenesisMutationProbability { get; }
     float FertilizationMutationProbability { get; }
 }
