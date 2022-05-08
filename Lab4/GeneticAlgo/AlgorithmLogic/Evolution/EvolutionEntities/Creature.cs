@@ -1,12 +1,11 @@
-﻿using AlgorithmLogic.Map;
-using AlgorithmLogic.Map.MapEntities;
+﻿using AlgorithmLogic.Map.MapEntities;
 using AlgorithmLogic.Moves;
 
 namespace AlgorithmLogic.Evolution.EvolutionEntities;
 
 public class Creature
 {
-    private const int MaxHealthPoints = 100;
+    public const int MaxHealthPoints = 100;
     private int _healthPoints;
 
     public Creature(Location location, Chromosome chromosome)
