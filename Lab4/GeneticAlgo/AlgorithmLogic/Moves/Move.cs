@@ -1,7 +1,6 @@
-﻿using AlgorithmLogic.Map;
-using AlgorithmLogic.Map.MapEntities;
+﻿using AlgorithmLogic.Map.MapEntities;
 
-namespace AlgorithmLogic.Evolution.Moves;
+namespace AlgorithmLogic.Moves;
 
 public class Move
 {

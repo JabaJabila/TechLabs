@@ -1,6 +1,6 @@
-﻿using AlgorithmLogic.Evolution.Moves;
-using AlgorithmLogic.Map;
+﻿using AlgorithmLogic.Map;
 using AlgorithmLogic.Map.MapEntities;
+using AlgorithmLogic.Moves;
 
 namespace AlgorithmLogic.Evolution.EvolutionEntities;
 
