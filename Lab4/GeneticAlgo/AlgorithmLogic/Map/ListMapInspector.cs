@@ -1,8 +1,9 @@
 ﻿using AlgorithmLogic.Configuration;
 using AlgorithmLogic.Evolution.EvolutionEntities;
+using AlgorithmLogic.Map.MapEntities;
 using AlgorithmLogic.Tools.Exceptions;
 
-namespace AlgorithmLogic.Map.MapEntities;
+namespace AlgorithmLogic.Map;
 
 public class ListMapInspector : IMapInspector
 {
