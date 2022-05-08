@@ -26,6 +26,11 @@ public class Chromosome
     }
     
     public IReadOnlyCollection<IGene> Genotype => _genotype;
+
+    public void ExecuteGene(Creature creature)
+    {
+        _genotype[CurrentGenePosition].Execute(creature);
+    }
     
     private void RandomizeGenotype(IGeneFactory geneFactory)
     {
