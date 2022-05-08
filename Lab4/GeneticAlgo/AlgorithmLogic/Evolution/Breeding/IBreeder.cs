@@ -4,5 +4,5 @@ namespace AlgorithmLogic.Evolution.Breeding;
 
 public interface IBreeder
 {
-    Population BreedPopulation(Population population, IMutator mutator);
+    Population BreedPopulation(Population population);
 }
