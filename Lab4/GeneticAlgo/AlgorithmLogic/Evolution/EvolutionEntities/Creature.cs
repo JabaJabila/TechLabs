@@ -1,5 +1,6 @@
 ﻿using AlgorithmLogic.Evolution.Moves;
 using AlgorithmLogic.Map;
+using AlgorithmLogic.Map.MapEntities;
 
 namespace AlgorithmLogic.Evolution.EvolutionEntities;
 
@@ -8,9 +9,9 @@ public class Creature
     private const int MaxHealthPoints = 100;
     private int _healthPoints;
 
-    public Creature(Location position, Chromosome chromosome)
+    public Creature(Location location, Chromosome chromosome)
     {
-        Position = position ?? throw new ArgumentNullException(nameof(position));
+        Location = location ?? throw new ArgumentNullException(nameof(location));
         Chromosome = chromosome ?? throw new ArgumentNullException(nameof(chromosome));
         IsAlive = true;
         _healthPoints = MaxHealthPoints;
@@ -42,11 +43,11 @@ public class Creature
     }
     public bool IsAlive { get; private set; }
     
-    public Location Position { get; set; }
+    public Location Location { get; set; }
     
     public Chromosome Chromosome { get; }
     
-    public Move? Move { get; private set; }
+    public Move? Move { get; set; }
 
     public void MakeMove()
     {

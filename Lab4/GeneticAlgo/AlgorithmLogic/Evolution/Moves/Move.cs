@@ -1,4 +1,5 @@
 ﻿using AlgorithmLogic.Map;
+using AlgorithmLogic.Map.MapEntities;
 
 namespace AlgorithmLogic.Evolution.Moves;
 

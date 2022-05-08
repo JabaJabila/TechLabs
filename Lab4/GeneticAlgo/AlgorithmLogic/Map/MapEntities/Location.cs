@@ -1,7 +1,7 @@
 ﻿using AlgorithmLogic.Evolution.Configuration;
 using AlgorithmLogic.Tools.Exceptions;
 
-namespace AlgorithmLogic.Map;
+namespace AlgorithmLogic.Map.MapEntities;
 
 public class Location : IEquatable<Location>
 {
