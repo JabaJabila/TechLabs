@@ -19,5 +19,7 @@ public interface IMapInspector
     
     void GeneratePopulationOnMap(Population population);
 
+    void ConvertPoisonToFood(IMapEntity entity);
+
     void ClearMap();
 }

@@ -118,6 +118,15 @@ public class ListMapInspector : IMapInspector
             creature.Location = GetFreeLocation();
     }
 
+    public void ConvertPoisonToFood(IMapEntity entity)
+    {
+        if (entity is not Poison) return;
+        
+        DeleteEntityFromMap(entity);
+        _entities.Add(new Food(entity.Location));
+        _totalFood++;
+    }
+
     public void ClearMap()
     {
         _entities = new List<IMapEntity>();
