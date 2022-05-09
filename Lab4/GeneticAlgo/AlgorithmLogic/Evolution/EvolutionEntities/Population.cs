@@ -12,14 +12,12 @@ public class Population
     public Population(
         IPopulationConfiguration populationConfiguration,
         ICreatureConfiguration creatureConfiguration,
-        IGeneFactory geneFactory,
-        uint generationNumber = 1)
+        IGeneFactory geneFactory)
     {
         _configuration = populationConfiguration ?? throw new ArgumentNullException(nameof(populationConfiguration));
         ArgumentNullException.ThrowIfNull(creatureConfiguration, nameof(creatureConfiguration));
         ArgumentNullException.ThrowIfNull(geneFactory, nameof(geneFactory));
-        GenerationNumber = generationNumber;
-        
+
         _creatures = new Creature[_configuration.PopulationAmount];
         
         for (var i = 0; i < _creatures.Length; i++)
@@ -32,15 +30,11 @@ public class Population
     
     public Population(
         IPopulationConfiguration populationConfiguration, 
-        Creature[] creatures,
-        uint generationNumber = 1)
+        Creature[] creatures)
     {
         _configuration = populationConfiguration ?? throw new ArgumentNullException(nameof(populationConfiguration));
         _creatures = creatures ?? throw new ArgumentNullException(nameof(creatures));
-        GenerationNumber = generationNumber;
     }
-    
-    public uint GenerationNumber { get; }
 
     public IReadOnlyCollection<Creature> AllCreatures => _creatures;
     

@@ -7,7 +7,7 @@ public static class PopulationExtension
 {
     public static string GenerationInfo(this Population population)
     {
-        var sb = new StringBuilder($"Generation #{population.GenerationNumber}:\n");
+        var sb = new StringBuilder($"Population info:\n");
         var aliveCreatures = population.AliveCreatures;
 
         if (population.IsInBreedZone)
