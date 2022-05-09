@@ -5,7 +5,7 @@ namespace AlgorithmLogic.Genes.ActiveGenes;
 
 public abstract class ActiveGene : IGene
 {
-    private static readonly (int, int)[] MovePositions = 
+    protected static readonly (int, int)[] MovePositions = 
         { (0, 1), (1, 1), (1, 0), (1, -1), (0, -1), (-1, -1), (-1, 0), (-1, 1) };
 
     protected ActiveGene(int subCode)
@@ -17,7 +17,7 @@ public abstract class ActiveGene : IGene
     }
 
     protected abstract int DomainCode { get; }
-    private int SubCode { get; }
+    protected int SubCode { get; }
     public int Code => DomainCode * 10 + SubCode;
     public abstract int EnergyCost { get; }
     public abstract void Execute(Creature creature);

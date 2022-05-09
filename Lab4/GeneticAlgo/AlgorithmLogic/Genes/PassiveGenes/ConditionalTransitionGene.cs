@@ -1,4 +1,6 @@
 ﻿using AlgorithmLogic.Evolution.EvolutionEntities;
+using AlgorithmLogic.Moves;
+using Action = AlgorithmLogic.Moves.Action;
 
 namespace AlgorithmLogic.Genes.PassiveGenes;
 
@@ -9,6 +11,6 @@ public class ConditionalTransitionGene : IGene
     public void Execute(Creature creature)
     {
         creature.Health -= EnergyCost;
-        // TODO
+        creature.Move = new Move(creature.Location, Action.Inspect);
     }
 }

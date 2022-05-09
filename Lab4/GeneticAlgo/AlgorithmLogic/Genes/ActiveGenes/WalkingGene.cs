@@ -1,4 +1,6 @@
 ﻿using AlgorithmLogic.Evolution.EvolutionEntities;
+using AlgorithmLogic.Moves;
+using Action = AlgorithmLogic.Moves.Action;
 
 namespace AlgorithmLogic.Genes.ActiveGenes;
 
@@ -14,6 +16,7 @@ public class WalkingGene : ActiveGene
     public override void Execute(Creature creature)
     {
         creature.Health -= EnergyCost;
-        // TODO: Move
+        var (x, y) = MovePositions[SubCode];
+        creature.Move = new Move(creature.Location.MoveOn(x, y), Action.Walk);
     }
 }
