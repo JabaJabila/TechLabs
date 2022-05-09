@@ -91,13 +91,13 @@ public class CommonEnvironmentInspector : IEnvironmentInspector
     private void HandleUnsafeInteract(Creature creature)
     {
         var entity = _mapInspector.GetEntityFromMap(creature.Move!.Location);
-        entity?.Interact(creature);
+        entity?.Interact(creature, _mapInspector);
     }
 
     private void HandleWalk(Creature creature)
     {
         var entity = _mapInspector.GetEntityFromMap(creature.Move!.Location);
-        entity?.Interact(creature);
+        entity?.Interact(creature, _mapInspector);
         creature.Location = creature.Move!.Location;
     }
 }

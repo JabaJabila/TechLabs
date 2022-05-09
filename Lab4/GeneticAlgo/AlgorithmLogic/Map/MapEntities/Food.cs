@@ -11,9 +11,11 @@ public class Food : IMapEntity
 
     public Location Location { get; set; }
     
-    public void Interact(Creature creature)
+    public void Interact(Creature creature, IMapInspector mapInspector)
     {
         ArgumentNullException.ThrowIfNull(creature, nameof(creature));
+        ArgumentNullException.ThrowIfNull(mapInspector, nameof(mapInspector));
         creature.Health = Creature.MaxHealthPoints;
+        mapInspector.DeleteEntityFromMap(this);
     }
 }

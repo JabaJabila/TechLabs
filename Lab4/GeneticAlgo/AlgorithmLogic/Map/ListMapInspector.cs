@@ -115,7 +115,10 @@ public class ListMapInspector : IMapInspector
     public void GeneratePopulationOnMap(Population population)
     {
         foreach (var creature in population.AllCreatures)
+        {
             creature.Location = GetFreeLocation();
+            _entities.Add(new CreatureEntity(creature, creature.Location));
+        }
     }
 
     public void ConvertPoisonToFood(IMapEntity entity)

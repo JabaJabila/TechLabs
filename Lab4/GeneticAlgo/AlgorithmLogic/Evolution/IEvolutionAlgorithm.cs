@@ -5,6 +5,6 @@ namespace AlgorithmLogic.Evolution;
 
 public interface IEvolutionAlgorithm
 {
-    void RunIterations(int n);
-    void RunInfinityLoop();
+    void RunGenerations(int n);
+    void RunGenerationsInfinityLoop();
 }

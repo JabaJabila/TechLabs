@@ -1,9 +1,10 @@
 ﻿using AlgorithmLogic.Configuration;
 using AlgorithmLogic.Evolution.Breeding;
 using AlgorithmLogic.Evolution.Environment;
+using AlgorithmLogic.Evolution.EvolutionEntities;
 using AlgorithmLogic.Genes;
 using AlgorithmLogic.Map;
-using AlgorithmLogic.Map.MapEntities;
+using AlgorithmLogic.Tools.Extensions;
 using AlgorithmLogic.Tools.Loggers;
 
 namespace AlgorithmLogic.Evolution;
@@ -27,18 +28,39 @@ public class EvolutionNoGui : IEvolutionAlgorithm
         _environmentInspector = new CommonEnvironmentInspector(configuration);
     }
 
-    public void RunIterations(int n)
+    public void RunGenerations(int n)
     {
-        throw new NotImplementedException();
+        var population = new Population(_configuration, _configuration, _geneFactory);
+        for (var i = 1; i <= n; i++ )
+            population = RunSingleGeneration(i++, population);
     }
 
-    public void RunInfinityLoop()
+    public void RunGenerationsInfinityLoop()
     {
-        throw new NotImplementedException();
+        var i = 1;
+        var population = new Population(_configuration, _configuration, _geneFactory);
+        
+        while (true)
+            population = RunSingleGeneration(i++, population);
     }
 
-    private void RunSingleIteration()
+    private Population RunSingleGeneration(int number, Population population)
     {
-        // TODO
+        _environmentInspector.GenerateEnvironment(population);
+        var iterationsSurvived = 0;
+
+        while (population.IsInBreedZone)
+        {
+            _environmentInspector.HandleIteration(population);
+            iterationsSurvived++;
+        }
+        
+        _logger.LogProgress(GenerateStringMessage(population, number, iterationsSurvived));
+        return _breeder.BreedPopulation(population, _geneFactory);
+    }
+
+    private static string GenerateStringMessage(Population population, int generation, int iterations)
+    {
+        return $"Generation #{generation}: iterations survived: {iterations}\n{population.GenerationInfo()}";
     }
 }
