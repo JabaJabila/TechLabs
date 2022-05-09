@@ -7,9 +7,4 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
-    <ItemGroup>
-      <Folder Include="Genes\ActiveGenes" />
-      <Folder Include="Genes\PassiveGenes" />
-    </ItemGroup>
-
 </Project>
