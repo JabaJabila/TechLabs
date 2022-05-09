@@ -36,10 +36,10 @@ public class Location : IEquatable<Location>
 
     public int DistanceTo(Location other)
     {
-        var x = (X + other.X) % _xLimit;
-        var y = (Y + other.Y) % _yLimit;
+        var x1 = X - other.X;
+        var y1 = Y - other.Y;
 
-        return (int) Math.Floor(Math.Sqrt(x * x + y * y));
+        return (int) Math.Floor(Math.Sqrt(x1 * x1 + y1 * y1));
     }
 
     public bool Equals(Location? other)

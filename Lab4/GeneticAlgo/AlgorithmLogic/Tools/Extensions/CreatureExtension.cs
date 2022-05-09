@@ -17,6 +17,7 @@ public static class CreatureExtension
             sb.Append($", {gene.Code}");
         }
 
+        sb.Append(']');
         return sb.ToString();
     }
 }

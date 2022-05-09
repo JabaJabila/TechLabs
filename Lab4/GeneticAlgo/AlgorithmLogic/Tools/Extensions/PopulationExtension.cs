@@ -7,17 +7,17 @@ public static class PopulationExtension
 {
     public static string GenerationInfo(this Population population)
     {
-        var sb = new StringBuilder($"Population info:\n");
+        var sb = new StringBuilder("Population info:\n");
         var aliveCreatures = population.AliveCreatures;
 
         if (population.IsInBreedZone)
         {
-            sb.Append("> lifecycle finished!");
+            sb.Append("> lifecycle finished!\n");
             sb.Append($"> survived creatures ({aliveCreatures.Count}):\n");
             
             foreach (var creature in aliveCreatures)
             {
-                sb.Append($">> {creature.ToString()}");
+                sb.Append($">> {creature.CreatureGenotypeString()}\n");
             }
 
             return sb.ToString();
@@ -25,19 +25,19 @@ public static class PopulationExtension
         
         var deadCreatures = population.DeadCreatures;
         
-        sb.Append("> lifecycle is active!");
+        sb.Append("> lifecycle is active!\n");
         sb.Append($"> survived creatures ({aliveCreatures.Count}):\n");
             
         foreach (var creature in aliveCreatures)
         {
-            sb.Append($">> {creature.ToString()}");
+            sb.Append($">> {creature.CreatureGenotypeString()}\n");
         }
         
         sb.Append($"> dead creatures ({deadCreatures}):\n");
             
         foreach (var creature in deadCreatures)
         {
-            sb.Append($">> {creature.ToString()}");
+            sb.Append($">> {creature.CreatureGenotypeString()}\n");
         }
 
         return sb.ToString();

@@ -3,7 +3,7 @@ using AlgorithmLogic.Evolution.Breeding;
 using AlgorithmLogic.Evolution.Environment;
 using AlgorithmLogic.Evolution.EvolutionEntities;
 using AlgorithmLogic.Genes;
-using AlgorithmLogic.Map;
+using AlgorithmLogic.Map.MapEntities;
 using AlgorithmLogic.Tools.Extensions;
 using AlgorithmLogic.Tools.Loggers;
 
@@ -15,7 +15,6 @@ public class EvolutionNoGui : IEvolutionAlgorithm
     private readonly IProgressLogger _logger;
     private readonly IBreeder _breeder;
     private readonly IGeneFactory _geneFactory;
-    private readonly IMapInspector _mapInspector;
     private readonly IEnvironmentInspector _environmentInspector;
 
     public EvolutionNoGui(IConfiguration configuration, IProgressLogger logger)
@@ -24,15 +23,15 @@ public class EvolutionNoGui : IEvolutionAlgorithm
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         _breeder = new BreederOnDistance(configuration, configuration, new RandomMutator());
         _geneFactory = new GeneCreator();
-        _mapInspector = new ListMapInspector(configuration);
         _environmentInspector = new CommonEnvironmentInspector(configuration);
+        Location.SetConfiguration(configuration);
     }
 
     public void RunGenerations(int n)
     {
         var population = new Population(_configuration, _configuration, _geneFactory);
         for (var i = 1; i <= n; i++ )
-            population = RunSingleGeneration(i++, population);
+            population = RunSingleGeneration(i, population);
     }
 
     public void RunGenerationsInfinityLoop()
@@ -49,14 +48,16 @@ public class EvolutionNoGui : IEvolutionAlgorithm
         _environmentInspector.GenerateEnvironment(population);
         var iterationsSurvived = 0;
 
-        while (population.IsInBreedZone)
+        while (!population.IsInBreedZone)
         {
             _environmentInspector.HandleIteration(population);
             iterationsSurvived++;
         }
         
         _logger.LogProgress(GenerateStringMessage(population, number, iterationsSurvived));
-        return _breeder.BreedPopulation(population, _geneFactory);
+        var newPopulation = _breeder.BreedPopulation(population, _geneFactory);
+
+        return newPopulation;
     }
 
     private static string GenerateStringMessage(Population population, int generation, int iterations)

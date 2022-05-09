@@ -7,7 +7,7 @@ namespace AlgorithmLogic.Map;
 
 public class ListMapInspector : IMapInspector
 {
-    private const float MinPlaceAvailable = .05f;
+    private const float MaxPlaceAvailable = .95f;
     private static readonly Random Random;
     private readonly IMapConfiguration _configuration;
     private readonly uint _totalSpace;
@@ -29,7 +29,7 @@ public class ListMapInspector : IMapInspector
 
     public Location GetFreeLocation()
     {
-        if (_entities.Count >= _totalSpace * MinPlaceAvailable)
+        if (_entities.Count >= _totalSpace * MaxPlaceAvailable)
             throw new GeneticAlgoException("Too few free space available on map");
         
         var x = (uint) Random.Next(0, (int) _configuration.MapWidth);
@@ -77,14 +77,16 @@ public class ListMapInspector : IMapInspector
     public void GenerateStarterFood()
     {
         _totalFood = (int) Math.Ceiling(_totalSpace * _configuration.StarterFoodPercentage);
-        
+
         for (var i = 0; i < _totalFood; i++)
+        {
             _entities.Add(new Food(GetFreeLocation()));
+        }
     }
 
     public void GenerateStarterPoison()
     {
-        _totalPoison = (int) Math.Floor(_totalSpace * _configuration.StarterFoodPercentage);
+        _totalPoison = (int) Math.Floor(_totalSpace * _configuration.StarterPoisonPercentage);
         
         for (var i = 0; i < _totalPoison; i++)
             _entities.Add(new Poison(GetFreeLocation()));
@@ -92,24 +94,32 @@ public class ListMapInspector : IMapInspector
 
     public void RegenerateFoodAfterIteration()
     {
-        var foodToRegenerate = Math.Floor(_totalFood * _configuration.FoodPerRoundRegeneration);
-        foodToRegenerate = foodToRegenerate + _totalFood <= Math.Floor(_totalFood * _configuration.MaxFoodPercentage)
+        Console.WriteLine(_entities.OfType<CreatureEntity>().Count(c => c.Creature.IsAlive));
+        var foodToRegenerate = Math.Floor(_totalSpace * _configuration.FoodPerRoundRegeneration);
+        foodToRegenerate = foodToRegenerate + _totalFood <= Math.Floor(_totalSpace * _configuration.MaxFoodPercentage)
             ? foodToRegenerate
-            : _totalFood - Math.Floor(_totalFood * _configuration.MaxFoodPercentage);
-        
+            : Math.Floor(_totalSpace * _configuration.MaxFoodPercentage) - _totalFood;
+
         for (var i = 0; i < foodToRegenerate; i++)
+        {
             _entities.Add(new Food(GetFreeLocation()));
+            _totalFood++;
+        }
+            
     }
 
     public void RegeneratePoisonAfterIteration()
     {
-        var poisonToRegenerate = Math.Floor(_totalPoison * _configuration.PoisonPerRoundRegeneration);
-        poisonToRegenerate = poisonToRegenerate + _totalPoison <= Math.Floor(_totalPoison * _configuration.MaxPoisonPercentage)
+        var poisonToRegenerate = Math.Floor(_totalSpace * _configuration.PoisonPerRoundRegeneration);
+        poisonToRegenerate = poisonToRegenerate + _totalPoison <= Math.Floor(_totalSpace * _configuration.MaxPoisonPercentage)
             ? poisonToRegenerate
-            : _totalPoison - Math.Floor(_totalPoison * _configuration.MaxPoisonPercentage);
-        
+            : Math.Floor(_totalSpace * _configuration.MaxPoisonPercentage) - _totalPoison;
+
         for (var i = 0; i < poisonToRegenerate; i++)
-            _entities.Add(new Food(GetFreeLocation()));
+        {
+            _entities.Add(new Poison(GetFreeLocation()));
+            _totalPoison++;
+        }
     }
 
     public void GeneratePopulationOnMap(Population population)

@@ -1,16 +1,16 @@
 {
-  "MapHeight": 1000,
-  "MapWidth": 700,
-  "StarterFoodPercentage": 30,
-  "StarterPoisonPercentage": 10,
-  "FoodPerRoundRegeneration": 3,
-  "PoisonPerRoundRegeneration": 1,
-  "MaxFoodPercentage": 40,
-  "MaxPoisonPercentage": 22,
+  "MapHeight": 100,
+  "MapWidth": 100,
+  "StarterFoodPercentage": 0.3,
+  "StarterPoisonPercentage": 0.1,
+  "FoodPerRoundRegeneration": 0.015,
+  "PoisonPerRoundRegeneration": 0.005,
+  "MaxFoodPercentage": 0.4,
+  "MaxPoisonPercentage": 0.22,
   "PopulationAmount": 100,
   "PopulationBreedZone": 10,
   "GenesInChromosome": 100,
-  "PartnerMaxDistance": 3,
-  "ParthenogenesisMutationProbability": 5,
-  "FertilizationMutationProbability": 10
+  "PartnerMaxDistance": 20,
+  "ParthenogenesisMutationProbability": 0.15,
+  "FertilizationMutationProbability": 0.1
 }

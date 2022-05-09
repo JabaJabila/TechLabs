@@ -6,6 +6,5 @@ public class ConsoleLogger : IProgressLogger
     {
         Console.WriteLine("------------------------------------------------");
         Console.WriteLine(message);
-        Console.WriteLine("------------------------------------------------");
     }
 }

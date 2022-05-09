@@ -35,6 +35,6 @@ public class GeneCreator : IGeneFactory
 
     private static int GetRandomCode()
     {
-        return Random.Next(0, Codes.Length);
+        return  Codes[Random.Next(0, Codes.Length)];
     }
 }

@@ -52,7 +52,7 @@ public class BreederOnDistance : IBreeder
 
         toReproduce = _populationConfiguration.PopulationAmount - newGeneration.Count;
         
-        if (toReproduce > 0)
+        if (toReproduce == 0)
             return new Population(_populationConfiguration, newGeneration.ToArray());
         
         if (fertilePairs.Count > 0)
@@ -83,8 +83,9 @@ public class BreederOnDistance : IBreeder
             var newGenotype = new IGene[countGenes];
             var genotype1 = creature1.Chromosome.Genotype.ToArray();
             var genotype2 = creature2.Chromosome.Genotype.ToArray();
+            var firstHalf = (currentGenePosition + countGenes / 2) % countGenes;
 
-            while (currentGenePosition != (currentGenePosition + countGenes / 2) % countGenes)
+            while (currentGenePosition != firstHalf)
             {
                 newGenotype[currentGenePosition] = genotype1[currentGenePosition];
                 currentGenePosition = (currentGenePosition + 1) % countGenes;

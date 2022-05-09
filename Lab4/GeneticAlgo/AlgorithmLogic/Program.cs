@@ -1,5 +1,7 @@
 ﻿using System.Text.Json;
 using AlgorithmLogic.Configuration;
+using AlgorithmLogic.Evolution;
+using AlgorithmLogic.Tools.Loggers;
 
 // using var fs = new FileStream(@"D:\TechLabs\genalgo_cfg.json", FileMode.Create);
 // var options = new JsonSerializerOptions { WriteIndented = true };
@@ -8,3 +10,5 @@ using AlgorithmLogic.Configuration;
 
 var reader = new JsonConfigReader();
 var cfg = reader.ReadFromJsonFile(@"D:\TechLabs\genalgo_cfg.json");
+var test = new EvolutionNoGui(cfg, new ConsoleLogger());
+test.RunGenerations(1000);

@@ -20,7 +20,7 @@ public class RandomMutator : IMutator
     {
         var genes = chromosome.Genotype.ToArray();
 
-        while (Random.NextDouble() * 100 < creatureConfiguration.FertilizationMutationProbability)
+        while (Random.NextDouble() < creatureConfiguration.FertilizationMutationProbability)
         {
             var position = Random.Next(0, (int) creatureConfiguration.GenesInChromosome);
             genes[position] = geneFactory.CreateRandomGene();
@@ -36,7 +36,7 @@ public class RandomMutator : IMutator
     {
         var genes = chromosome.Genotype.ToArray();
 
-        while (Random.NextDouble() * 100 < creatureConfiguration.ParthenogenesisMutationProbability)
+        while (Random.NextDouble() < creatureConfiguration.ParthenogenesisMutationProbability)
         {
             var position = Random.Next(0, (int) creatureConfiguration.GenesInChromosome);
             genes[position] = geneFactory.CreateRandomGene();
