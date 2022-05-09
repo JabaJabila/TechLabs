@@ -27,5 +27,6 @@ public class UnconditionalTransitionGene : IGene
     {
         creature.Health -= EnergyCost;
         creature.Move = new Move(creature.Location, Action.Idle);
+        creature.Chromosome.CurrentGenePosition += _step * TransitionFactor;
     }
 }
