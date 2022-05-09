@@ -94,7 +94,6 @@ public class ListMapInspector : IMapInspector
 
     public void RegenerateFoodAfterIteration()
     {
-        Console.WriteLine(_entities.OfType<CreatureEntity>().Count(c => c.Creature.IsAlive));
         var foodToRegenerate = Math.Floor(_totalSpace * _configuration.FoodPerRoundRegeneration);
         foodToRegenerate = foodToRegenerate + _totalFood <= Math.Floor(_totalSpace * _configuration.MaxFoodPercentage)
             ? foodToRegenerate

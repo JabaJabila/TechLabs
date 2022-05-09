@@ -39,6 +39,7 @@ public class CommonEnvironmentInspector : IEnvironmentInspector
         {
             creature.MakeMove();
             HandleMove(creature);
+            if (population.IsInBreedZone) break;
         }
         
         _mapInspector.RegenerateFoodAfterIteration();

@@ -25,7 +25,7 @@ public class GeneCreator : IGeneFactory
         return (code / 10) switch
         {
             0 => new ConditionalTransitionGene(),
-            1 => new EatingGene(code % 10),
+            1 => new WalkingGene(code % 10),
             2 => new EatingGene(code % 10),
             3 => new NeutralizingGene(code % 10),
             4 => new UnconditionalTransitionGene(code % 10),

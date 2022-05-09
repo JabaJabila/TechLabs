@@ -11,6 +11,6 @@
   "PopulationBreedZone": 10,
   "GenesInChromosome": 100,
   "PartnerMaxDistance": 20,
-  "ParthenogenesisMutationProbability": 0.15,
-  "FertilizationMutationProbability": 0.1
+  "ParthenogenesisMutationProbability": 0.65,
+  "FertilizationMutationProbability": 0.6
 }
