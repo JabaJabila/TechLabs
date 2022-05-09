@@ -1,0 +1,16 @@
+{
+  "MapHeight": 1000,
+  "MapWidth": 700,
+  "StarterFoodPercentage": 30,
+  "StarterPoisonPercentage": 10,
+  "FoodPerRoundRegeneration": 3,
+  "PoisonPerRoundRegeneration": 1,
+  "MaxFoodPercentage": 40,
+  "MaxPoisonPercentage": 22,
+  "PopulationAmount": 100,
+  "PopulationBreedZone": 10,
+  "GenesInChromosome": 100,
+  "PartnerMaxDistance": 3,
+  "ParthenogenesisMutationProbability": 5,
+  "FertilizationMutationProbability": 10
+}
