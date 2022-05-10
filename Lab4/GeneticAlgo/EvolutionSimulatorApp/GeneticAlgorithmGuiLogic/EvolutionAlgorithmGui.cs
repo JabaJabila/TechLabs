@@ -20,13 +20,13 @@ public class EvolutionAlgorithmGui : IEvolutionAlgorithm
     private readonly IGeneFactory _geneFactory;
     private readonly IEnvironmentInspector _environmentInspector;
 
-    public EvolutionAlgorithmGui(IConfiguration configuration, IProgressLogger logger, uint cellSize, Canvas canvas, int waitTimeMs)
+    public EvolutionAlgorithmGui(IConfiguration configuration, IProgressLogger logger, Image image, int waitTimeMs)
     {
-        ArgumentNullException.ThrowIfNull(canvas, nameof(canvas));
+        ArgumentNullException.ThrowIfNull(image, nameof(image));
         ArgumentNullException.ThrowIfNull(logger, nameof(logger));
         ArgumentNullException.ThrowIfNull(configuration, nameof(configuration));
 
-        var drawer = new SimpleDrawer(cellSize, canvas, waitTimeMs, configuration);
+        var drawer = new SimpleDrawer(image, waitTimeMs, configuration);
         _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         _breeder = new BreederOnDistance(configuration, configuration, new RandomMutator());

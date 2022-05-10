@@ -3,8 +3,8 @@
 public class ConfigModel : IConfiguration
 {
     public ConfigModel(
-        uint mapHeight,
-        uint mapWidth,
+        int mapHeight,
+        int mapWidth,
         float starterFoodPercentage,
         float starterPoisonPercentage,
         float foodPerRoundRegeneration, 
@@ -34,8 +34,8 @@ public class ConfigModel : IConfiguration
         FertilizationMutationProbability = fertilizationMutationProbability;
     }
 
-    public uint MapHeight { get; }
-    public uint MapWidth { get; }
+    public int MapHeight { get; }
+    public int MapWidth { get; }
     public float StarterFoodPercentage { get; }
     public float StarterPoisonPercentage { get; }
     public float FoodPerRoundRegeneration { get; }

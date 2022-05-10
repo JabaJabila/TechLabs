@@ -2,8 +2,8 @@
 
 public interface IMapConfiguration
 {
-    uint MapHeight { get; }
-    uint MapWidth { get; }
+    int MapHeight { get; }
+    int MapWidth { get; }
     
     float StarterFoodPercentage { get; }
     float StarterPoisonPercentage { get; }

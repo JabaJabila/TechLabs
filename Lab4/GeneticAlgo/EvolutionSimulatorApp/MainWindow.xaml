@@ -6,11 +6,16 @@
         xmlns:local="clr-namespace:EvolutionSimulatorApp"
         mc:Ignorable="d"
         Title="Evolution Simulator"
-        SizeToContent="WidthAndHeight" ContentRendered="MainWindow_OnContentRendered">
-    
-    <Border BorderBrush="Black" BorderThickness="5">  
-        <Canvas Name="SimulatorArea" ClipToBounds="True" Width="1000" Height="800" Background="Black">  
-
-        </Canvas>  
-    </Border> 
+        Width="1000"
+        Height="810">
+    <Grid>
+        <Image
+            x:Name="ImageView"
+            Width="800"
+            Height="800"
+            Margin="10,10,0,10"
+            HorizontalAlignment="Left"
+            RenderOptions.BitmapScalingMode="NearestNeighbor"
+            VerticalAlignment="Top" />
+    </Grid>
 </Window>

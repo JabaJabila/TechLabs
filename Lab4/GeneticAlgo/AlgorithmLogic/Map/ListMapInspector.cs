@@ -10,7 +10,7 @@ public class ListMapInspector : IMapInspector
     private const float MaxPlaceAvailable = .95f;
     private static readonly Random Random;
     private readonly IMapConfiguration _configuration;
-    private readonly uint _totalSpace;
+    private readonly int _totalSpace;
     private List<IMapEntity> _entities;
     private int _totalFood;
     private int _totalPoison;
@@ -34,14 +34,14 @@ public class ListMapInspector : IMapInspector
         if (_entities.Count >= _totalSpace * MaxPlaceAvailable)
             throw new GeneticAlgoException("Too few free space available on map");
         
-        var x = (uint) Random.Next(0, (int) _configuration.MapWidth);
-        var y = (uint) Random.Next(0, (int) _configuration.MapHeight);
+        var x = Random.Next(0, _configuration.MapWidth);
+        var y = Random.Next(0, _configuration.MapHeight);
         var freeLocation = new Location(x, y);
 
         while (_entities.Select(e => e.Location).Contains(freeLocation))
         {
-            x = (uint) Random.Next(0, (int) _configuration.MapWidth);
-            y = (uint) Random.Next(0, (int) _configuration.MapHeight);
+            x = Random.Next(0, _configuration.MapWidth);
+            y = Random.Next(0, _configuration.MapHeight);
             freeLocation = new Location(x, y);
         }
 

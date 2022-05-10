@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
-using System.Windows.Shapes;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using AlgorithmLogic.Configuration;
 using AlgorithmLogic.Map.MapEntities;
 
@@ -11,17 +11,27 @@ namespace EvolutionSimulatorApp.GeneticAlgorithmGuiLogic;
 
 public class SimpleDrawer : IDrawer
 {
-    private readonly uint _cellSize;
     private readonly IMapConfiguration _configuration;
-    private readonly Canvas _canvas;
     private readonly int _waitTime;
+    private readonly WriteableBitmap _writableBitmap;
+    private readonly byte[,,] _pixels;
 
-    public SimpleDrawer(uint cellSize, Canvas canvas, int waitTime, IMapConfiguration mapConfiguration)
+    public SimpleDrawer(Image image, int waitTime, IMapConfiguration mapConfiguration)
     {
-        _cellSize = cellSize;
         _waitTime = waitTime;
         _configuration = mapConfiguration ?? throw new ArgumentNullException(nameof(mapConfiguration));
-        _canvas = canvas ?? throw new ArgumentNullException(nameof(canvas));
+        var image1 = image ?? throw new ArgumentNullException(nameof(image));
+
+        _writableBitmap = new WriteableBitmap(
+            (int) mapConfiguration.MapWidth,
+            (int) mapConfiguration.MapHeight,
+            12,
+            12,
+            PixelFormats.Bgr32,
+            null);
+
+        image1.Source = _writableBitmap;
+        _pixels = new byte[mapConfiguration.MapHeight, mapConfiguration.MapWidth, 4];
     }
 
     public void Draw(IReadOnlyCollection<IMapEntity> entities)
@@ -32,83 +42,73 @@ public class SimpleDrawer : IDrawer
         {
             switch (entity)
             {
-                case Food food:
-                    DrawFood(food);
+                case Food:
+                    DrawFood(entity);
                     break;
-                case Poison poison:
-                    DrawPoison(poison);
+                case Poison:
+                    DrawPoison(entity);
                     break;
                 case CreatureEntity creature:
-                    DrawCreature(creature);
+                    if (!creature.Creature.IsAlive) break;
+                    DrawCreature(entity);
                     break;
             }
         }
+        
+        PrintPixels(_pixels);
     }
 
     private void DrawEmptyFiled()
     {
-        for (var i = 0; i < _configuration.MapWidth; i++)
+        for (var row = 0; row < _configuration.MapHeight; row++)
+        for (var col = 0; col < _configuration.MapWidth; col++)
         {
-            for (var j = 0; j < _configuration.MapHeight; j++)
-            {
-                var rect = new Rectangle  
-                {  
-                    Width = _cellSize,  
-                    Height = _cellSize,  
-                    Fill = Brushes.Black,
-                    Stroke = Brushes.Gray,
-                };
-                    
-                _canvas.Children.Add(rect);  
-                Canvas.SetTop(rect, j * _cellSize);  
-                Canvas.SetLeft(rect, i * _cellSize); 
-            }
+            for (var i = 0; i < 3; i++)
+                _pixels[row, col, i] = 0;
+            _pixels[row, col, 3] = 255;
         }
     }
 
-    private void DrawFood(Food food)
+    private void DrawFood(IMapEntity entity)
     {
-        var rect = new Rectangle  
-        {  
-            Width = _cellSize,  
-            Height = _cellSize,  
-            Fill = Brushes.Lime,
-            Stroke = Brushes.Gray,
-        };
-                    
-        _canvas.Children.Add(rect);  
-        Canvas.SetTop(rect, food.Location.Y * _cellSize);  
-        Canvas.SetLeft(rect, food.Location.X * _cellSize); 
+        _pixels[entity.Location.Y, entity.Location.X, 0] = 0;
+        _pixels[entity.Location.Y, entity.Location.X, 1] = 255;
+        _pixels[entity.Location.Y, entity.Location.X, 2] = 0;
     }
     
-    private void DrawPoison(Poison poison)
+    private void DrawPoison(IMapEntity entity)
     {
-        var rect = new Rectangle  
-        {  
-            Width = _cellSize,  
-            Height = _cellSize,  
-            Fill = Brushes.Firebrick,
-            Stroke = Brushes.Gray,
-        };
-                    
-        _canvas.Children.Add(rect);  
-        Canvas.SetTop(rect, poison.Location.Y * _cellSize);  
-        Canvas.SetLeft(rect, poison.Location.X * _cellSize); 
+        _pixels[entity.Location.Y, entity.Location.X, 0] = 0;
+        _pixels[entity.Location.Y, entity.Location.X, 1] = 0;
+        _pixels[entity.Location.Y, entity.Location.X, 2] = 255;
     }
     
-    private void DrawCreature(CreatureEntity creature)
+    private void DrawCreature(IMapEntity entity)
     {
-        if (!creature.Creature.IsAlive) return;
-        var rect = new Rectangle  
-        {  
-            Width = _cellSize,  
-            Height = _cellSize,  
-            Fill = Brushes.Snow,
-            Stroke = Brushes.Gray,
-        };
-                    
-        _canvas.Children.Add(rect);  
-        Canvas.SetTop(rect, creature.Location.Y * _cellSize);  
-        Canvas.SetLeft(rect, creature.Location.X * _cellSize); 
+        _pixels[entity.Location.Y, entity.Location.X, 0] = 255;
+        _pixels[entity.Location.Y, entity.Location.X, 1] = 255;
+        _pixels[entity.Location.Y, entity.Location.X, 2] = 255;
+    }
+    
+    private byte[] TransformTo1D(byte[,,] pixels)
+    {
+        var pixels1D = new byte[_configuration.MapHeight * _configuration.MapWidth * 4];
+
+        var index = 0;
+        for (var row = 0; row < _configuration.MapHeight; row++)
+        for (var col = 0; col < _configuration.MapWidth; col++)
+        for (var i = 0; i < 4; i++)
+            pixels1D[index++] = pixels[row, col, i];
+
+        return pixels1D;
+    }
+
+    private void PrintPixels(byte[,,] pixels)
+    {
+        var pixels1D = TransformTo1D(pixels);
+        var rect = new Int32Rect(0, 0, (int) _configuration.MapWidth, (int) _configuration.MapHeight);
+        var stride = (int) (4 * _configuration.MapWidth);
+
+        Application.Current.Dispatcher.Invoke(() => _writableBitmap.WritePixels(rect, pixels1D, stride, 0));
     }
 }

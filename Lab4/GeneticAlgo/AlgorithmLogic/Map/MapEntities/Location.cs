@@ -5,21 +5,21 @@ namespace AlgorithmLogic.Map.MapEntities;
 
 public class Location : IEquatable<Location>
 {
-    private static uint _xLimit;
-    private static uint _yLimit;
+    private static int _xLimit;
+    private static int _yLimit;
     private static bool _configured;
     
-    public Location(uint x = 0, uint y = 0)
+    public Location(int x = 0, int y = 0)
     {
         if (!_configured) 
             throw new GeneticAlgoException("Can't create location until Location.SetConfigurations() is done");
         
-        X = x;
+        X = x % _xLimit;
         Y = y;
     }
     
-    public uint X { get; }
-    public uint Y { get; }
+    public int X { get; }
+    public int Y { get; }
 
     public static void SetConfiguration(IMapConfiguration configuration)
     {
@@ -31,7 +31,7 @@ public class Location : IEquatable<Location>
 
     public Location MoveOn(int x, int y)
     {
-        return new Location((uint)((x + X) % _xLimit), (uint)((y + Y) % _yLimit));
+        return new Location((int) ((x + X) % _xLimit), (int) ((y + Y) % _yLimit));
     }
 
     public int DistanceTo(Location other)
