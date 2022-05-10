@@ -11,7 +11,6 @@ public class ConditionalTransitionGene : ActiveGene
     }
     
     protected override int DomainCode { get; } = 5;
-    public int Code => DomainCode * 10 + SubCode;
     public override int EnergyCost { get; } = 4;
     public override void Execute(Creature creature)
     {
