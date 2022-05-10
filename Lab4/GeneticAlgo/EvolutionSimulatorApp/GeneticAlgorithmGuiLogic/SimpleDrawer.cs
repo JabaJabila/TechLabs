@@ -26,7 +26,6 @@ public class SimpleDrawer : IDrawer
 
     public void Draw(IReadOnlyCollection<IMapEntity> entities)
     {
-        // await Task.Delay(_waitTime);
         DrawEmptyFiled();
         
         foreach (var entity in entities)
