@@ -26,24 +26,13 @@ public class EvolutionNoGui : IEvolutionAlgorithm
         _environmentInspector = new CommonEnvironmentInspector(configuration);
         Location.SetConfiguration(configuration);
     }
-
-    public void RunGenerations(int n)
+    
+    public Population GenerateStarterPopulation()
     {
-        var population = new Population(_configuration, _configuration, _geneFactory);
-        for (var i = 1; i <= n; i++ )
-            population = RunSingleGeneration(i, population);
+        return new Population(_configuration, _configuration, _geneFactory);
     }
 
-    public void RunGenerationsInfinityLoop()
-    {
-        var i = 1;
-        var population = new Population(_configuration, _configuration, _geneFactory);
-        
-        while (true)
-            population = RunSingleGeneration(i++, population);
-    }
-
-    private Population RunSingleGeneration(int number, Population population)
+    public Population RunGeneration(int number, Population population)
     {
         _environmentInspector.GenerateEnvironment(population);
         var iterationsSurvived = 0;

@@ -1,6 +1,6 @@
 {
-  "MapHeight": 100,
-  "MapWidth": 100,
+  "MapHeight": 64,
+  "MapWidth": 64,
   "StarterFoodPercentage": 0.3,
   "StarterPoisonPercentage": 0.1,
   "FoodPerRoundRegeneration": 0.015,

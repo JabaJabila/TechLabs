@@ -11,4 +11,8 @@ using AlgorithmLogic.Tools.Loggers;
 var reader = new JsonConfigReader();
 var cfg = reader.ReadFromJsonFile(@"D:\TechLabs\genalgo_cfg.json");
 var test = new EvolutionNoGui(cfg, new ConsoleLogger());
-test.RunGenerations(1000);
+
+var population = test.GenerateStarterPopulation();
+var gen = 1;
+while(true)
+    population = test.RunGeneration(gen++, population);
