@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -23,8 +24,8 @@ public class SimpleDrawer : IDrawer
         var image1 = image ?? throw new ArgumentNullException(nameof(image));
 
         _writableBitmap = new WriteableBitmap(
-            (int) mapConfiguration.MapWidth,
-            (int) mapConfiguration.MapHeight,
+            mapConfiguration.MapWidth,
+            mapConfiguration.MapHeight,
             12,
             12,
             PixelFormats.Bgr32,
@@ -106,9 +107,10 @@ public class SimpleDrawer : IDrawer
     private void PrintPixels(byte[,,] pixels)
     {
         var pixels1D = TransformTo1D(pixels);
-        var rect = new Int32Rect(0, 0, (int) _configuration.MapWidth, (int) _configuration.MapHeight);
-        var stride = (int) (4 * _configuration.MapWidth);
+        var rect = new Int32Rect(0, 0, _configuration.MapWidth, _configuration.MapHeight);
+        var stride = (4 * _configuration.MapWidth);
 
+        Thread.Sleep(_waitTime);
         Application.Current.Dispatcher.Invoke(() => _writableBitmap.WritePixels(rect, pixels1D, stride, 0));
     }
 }

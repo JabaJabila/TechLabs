@@ -13,9 +13,9 @@ public class Location : IEquatable<Location>
     {
         if (!_configured) 
             throw new GeneticAlgoException("Can't create location until Location.SetConfigurations() is done");
-        
-        X = x % _xLimit;
-        Y = y;
+
+        X = Mod(x, _xLimit);
+        Y = Mod(y, _yLimit);
     }
     
     public int X { get; }
@@ -31,7 +31,11 @@ public class Location : IEquatable<Location>
 
     public Location MoveOn(int x, int y)
     {
-        return new Location((int) ((x + X) % _xLimit), (int) ((y + Y) % _yLimit));
+        return new Location( Mod(x + X, _xLimit), Mod(y + Y, _yLimit));
+    }
+    
+    private int Mod(int x, int m) {
+        return (x % m + m) % m;
     }
 
     public int DistanceTo(Location other)

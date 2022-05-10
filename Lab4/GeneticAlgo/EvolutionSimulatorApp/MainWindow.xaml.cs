@@ -15,7 +15,8 @@ namespace EvolutionSimulatorApp
         private const int WindowHeight = 1000;
         private const int WindowWidth = 800;
         private readonly IEvolutionAlgorithm _algorithm;
-        private const int UpdateScreenWaitMs = 1000;
+        private const int UpdateScreenAfterGenerationWaitMs = 1000;
+        private const int UpdateScreenAfterIterationWaitMs = 100;
         private int _generationNumber;
         private Population _currentPopulation;
         
@@ -30,7 +31,7 @@ namespace EvolutionSimulatorApp
             
             InitializeComponent();
             
-            _algorithm = new EvolutionAlgorithmGui(configuration, logger, ImageView, UpdateScreenWaitMs);
+            _algorithm = new EvolutionAlgorithmGui(configuration, logger, ImageView, UpdateScreenAfterIterationWaitMs);
             _currentPopulation = _algorithm.GenerateStarterPopulation();
             _generationNumber = 1;
             
@@ -43,8 +44,9 @@ namespace EvolutionSimulatorApp
         {
             while (true)
             {
+                Application.Current.Dispatcher.Invoke(() => Title = $"SimulatorArea - Generation #{_generationNumber}");
                 _currentPopulation = _algorithm.RunGeneration(_generationNumber++, _currentPopulation);
-                Thread.Sleep(UpdateScreenWaitMs);
+                Thread.Sleep(UpdateScreenAfterGenerationWaitMs);
             }
         }
     }
