@@ -9,7 +9,7 @@ using EvolutionSimulatorApp.GeneticAlgorithmGuiLogic;
 
 namespace EvolutionSimulatorApp
 {
-    public partial class MainWindow : Window
+    public partial class MainWindow
     {
         private readonly IEvolutionAlgorithm _algorithm;
         private const int UpdateScreenAfterGenerationWaitMs = 1000;

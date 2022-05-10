@@ -110,7 +110,7 @@ public class SimpleDrawer : IDrawer
     {
         var pixels1D = TransformTo1D(pixels);
         var rect = new Int32Rect(0, 0, _configuration.MapWidth, _configuration.MapHeight);
-        var stride = (4 * _configuration.MapWidth);
+        var stride = 4 * _configuration.MapWidth;
 
         Thread.Sleep(_waitTime);
         Application.Current.Dispatcher.Invoke(() => _writableBitmap.WritePixels(rect, pixels1D, stride, 0));

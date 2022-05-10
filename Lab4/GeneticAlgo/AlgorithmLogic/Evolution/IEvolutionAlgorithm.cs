@@ -1,6 +1,4 @@
-﻿using AlgorithmLogic.Configuration;
-using AlgorithmLogic.Evolution.EvolutionEntities;
-using AlgorithmLogic.Tools.Loggers;
+﻿using AlgorithmLogic.Evolution.EvolutionEntities;
 
 namespace AlgorithmLogic.Evolution;
 
