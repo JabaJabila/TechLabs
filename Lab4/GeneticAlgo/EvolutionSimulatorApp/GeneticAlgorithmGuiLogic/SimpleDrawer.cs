@@ -28,7 +28,7 @@ public class SimpleDrawer : IDrawer
             mapConfiguration.MapHeight,
             12,
             12,
-            PixelFormats.Bgr32,
+            PixelFormats.Bgra32,
             null);
 
         image1.Source = _writableBitmap;
@@ -51,7 +51,7 @@ public class SimpleDrawer : IDrawer
                     break;
                 case CreatureEntity creature:
                     if (!creature.Creature.IsAlive) break;
-                    DrawCreature(entity);
+                    DrawCreature(creature);
                     break;
             }
         }
@@ -84,11 +84,13 @@ public class SimpleDrawer : IDrawer
         _pixels[entity.Location.Y, entity.Location.X, 2] = 255;
     }
     
-    private void DrawCreature(IMapEntity entity)
+    private void DrawCreature(CreatureEntity entity)
     {
-        _pixels[entity.Location.Y, entity.Location.X, 0] = 255;
-        _pixels[entity.Location.Y, entity.Location.X, 1] = 255;
-        _pixels[entity.Location.Y, entity.Location.X, 2] = 255;
+        var hpAlpha = (int) ((100 - entity.Creature.Health) * (255.0 / 100));
+        _pixels[entity.Location.Y, entity.Location.X, 3] = (byte) hpAlpha;
+        _pixels[entity.Location.Y, entity.Location.X, 0] = 31;
+        _pixels[entity.Location.Y, entity.Location.X, 1] = 31;
+        _pixels[entity.Location.Y, entity.Location.X, 2] = 102;
     }
     
     private byte[] TransformTo1D(byte[,,] pixels)
