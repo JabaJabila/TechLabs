@@ -6,6 +6,7 @@ using System.Windows.Shapes;
 using System.Windows.Threading;
 using AlgorithmLogic.Configuration;
 using AlgorithmLogic.Evolution;
+using AlgorithmLogic.Evolution.EvolutionEntities;
 using AlgorithmLogic.Tools.Loggers;
 using EvolutionSimulatorApp.GeneticAlgorithmGuiLogic;
 
@@ -18,8 +19,10 @@ namespace EvolutionSimulatorApp
         private readonly IEvolutionAlgorithm _algorithm;
         private readonly IConfiguration _configuration;
         private readonly uint _cellSize;
-        private DispatcherTimer _tickTimer = new ();
-        private int _updateScreenWaitMs = 400;  
+        private readonly DispatcherTimer _tickTimer = new ();
+        private int _updateScreenWaitMs = 10;
+        private int _generationNumber;
+        private Population _currentPopulation;
         
         public MainWindow()
         {
@@ -30,29 +33,31 @@ namespace EvolutionSimulatorApp
             var ySize = WindowHeight / _configuration.MapHeight;
             _cellSize = Math.Min(xSize, ySize);
             
+            InitializeComponent();
+            
             _tickTimer.Tick += TickTimerTick; 
             _algorithm = new EvolutionAlgorithmGui(_configuration, logger, _cellSize, SimulatorArea, _updateScreenWaitMs);
-            _tickTimer.Interval = TimeSpan.FromMilliseconds(_updateScreenWaitMs); 
-            
-            InitializeComponent();
+            _tickTimer.Interval = TimeSpan.FromMilliseconds(_updateScreenWaitMs);
+            _currentPopulation = _algorithm.GenerateStarterPopulation();
         }
 
         private void TickTimerTick(object? sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            Title = $"SimulatorArea - Generation #{_generationNumber}";
+            _currentPopulation = _algorithm.RunGeneration(_generationNumber++, _currentPopulation);
         }
 
         private void MainWindow_OnContentRendered(object? sender, EventArgs e)
         {
             DrawField();
-            
+            _tickTimer.IsEnabled = true;
         }
 
         private void DrawField()
         {
-            for (var i = 0; i <= _configuration.MapWidth; i++)
+            for (var i = 0; i < _configuration.MapWidth; i++)
             {
-                for (var j = 0; j <= _configuration.MapHeight; j++)
+                for (var j = 0; j < _configuration.MapHeight; j++)
                 {
                     var rect = new Rectangle  
                     {  

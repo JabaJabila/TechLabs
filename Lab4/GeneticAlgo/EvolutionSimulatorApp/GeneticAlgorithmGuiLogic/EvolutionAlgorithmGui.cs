@@ -26,7 +26,7 @@ public class EvolutionAlgorithmGui : IEvolutionAlgorithm
         ArgumentNullException.ThrowIfNull(logger, nameof(logger));
         ArgumentNullException.ThrowIfNull(configuration, nameof(configuration));
 
-        var drawer = new SimpleDrawer(cellSize, canvas, waitTimeMs);
+        var drawer = new SimpleDrawer(cellSize, canvas, waitTimeMs, configuration);
         _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         _breeder = new BreederOnDistance(configuration, configuration, new RandomMutator());
