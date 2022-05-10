@@ -98,6 +98,7 @@ public class SimpleDrawer : IDrawer
     
     private void DrawCreature(CreatureEntity creature)
     {
+        if (!creature.Creature.IsAlive) return;
         var rect = new Rectangle  
         {  
             Width = _cellSize,  
