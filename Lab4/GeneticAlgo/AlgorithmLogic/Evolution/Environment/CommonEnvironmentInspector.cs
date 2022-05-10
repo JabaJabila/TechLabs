@@ -21,6 +21,8 @@ public class CommonEnvironmentInspector : IEnvironmentInspector
         _mapInspector = new ListMapInspector(configuration);
     }
 
+    public IReadOnlyCollection<IMapEntity> Entities => _mapInspector.Entities;
+    
     public void GenerateEnvironment(Population population)
     {
         ArgumentNullException.ThrowIfNull(population, nameof(population));

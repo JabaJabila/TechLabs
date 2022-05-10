@@ -27,6 +27,8 @@ public class ListMapInspector : IMapInspector
         _totalSpace = _configuration.MapHeight * _configuration.MapWidth;
     }
 
+    public IReadOnlyCollection<IMapEntity> Entities => _entities;
+
     public Location GetFreeLocation()
     {
         if (_entities.Count >= _totalSpace * MaxPlaceAvailable)

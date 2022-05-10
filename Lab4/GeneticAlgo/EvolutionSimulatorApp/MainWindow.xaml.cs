@@ -7,6 +7,7 @@ using System.Windows.Threading;
 using AlgorithmLogic.Configuration;
 using AlgorithmLogic.Evolution;
 using AlgorithmLogic.Tools.Loggers;
+using EvolutionSimulatorApp.GeneticAlgorithmGuiLogic;
 
 namespace EvolutionSimulatorApp
 {
@@ -16,32 +17,35 @@ namespace EvolutionSimulatorApp
         private const int WindowWidth = 800;
         private readonly IEvolutionAlgorithm _algorithm;
         private readonly IConfiguration _configuration;
+        private readonly uint _cellSize;
         private DispatcherTimer _tickTimer = new ();
-        private uint _cellSize;
-        private int UpdateScreenSpeed = 400;  
+        private int _updateScreenWaitMs = 400;  
         
         public MainWindow()
         {
             var reader = new JsonConfigReader();
             _configuration = reader.ReadFromJsonFile(@"D:\TechLabs\genalgo_cfg.json");
-            _algorithm = new EvolutionNoGui(_configuration, new ConsoleLogger());
+            var logger = new ConsoleLogger();
             var xSize = WindowWidth / _configuration.MapWidth;
             var ySize = WindowHeight / _configuration.MapHeight;
             _cellSize = Math.Min(xSize, ySize);
             
+            _tickTimer.Tick += TickTimerTick; 
+            _algorithm = new EvolutionAlgorithmGui(_configuration, logger, _cellSize, SimulatorArea, _updateScreenWaitMs);
+            _tickTimer.Interval = TimeSpan.FromMilliseconds(_updateScreenWaitMs); 
+            
             InitializeComponent();
-            _tickTimer.Tick += TickTimer_Tick;
         }
 
-        private void TickTimer_Tick(object? sender, EventArgs e)
+        private void TickTimerTick(object? sender, EventArgs e)
         {
-            // _tickTimer.Interval = TimeSpan.FromMilliseconds(UpdateScreenSpeed);
-            // _tickTimer.IsEnabled = true;  
+            throw new NotImplementedException();
         }
 
         private void MainWindow_OnContentRendered(object? sender, EventArgs e)
         {
             DrawField();
+            
         }
 
         private void DrawField()

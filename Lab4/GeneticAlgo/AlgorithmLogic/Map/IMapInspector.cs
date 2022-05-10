@@ -7,6 +7,8 @@ public interface IMapInspector
 {
     Location GetFreeLocation();
     
+    IReadOnlyCollection<IMapEntity> Entities { get; }
+
     IMapEntity? GetEntityFromMap(Location location);
     void DeleteEntityFromMap(Location location);
     void DeleteEntityFromMap(IMapEntity entity);
