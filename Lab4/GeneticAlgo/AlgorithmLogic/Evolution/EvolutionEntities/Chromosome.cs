@@ -25,7 +25,7 @@ public class Chromosome
         set => _currentGenePosition = value % _genotype.Length; 
     }
     
-    public IReadOnlyCollection<IGene> Genotype => _genotype;
+    public IGene[] Genotype => _genotype;
 
     public void ExecuteGene(Creature creature)
     {

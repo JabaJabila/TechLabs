@@ -1,6 +1,8 @@
-﻿namespace AlgorithmLogic.Tools.Loggers;
+﻿using AlgorithmLogic.Evolution.EvolutionEntities;
+
+namespace AlgorithmLogic.Tools.Loggers;
 
 public interface IProgressLogger
 {
-    void LogProgress(string message);
+    void LogProgress(Population population, int generation, int iterations);
 }

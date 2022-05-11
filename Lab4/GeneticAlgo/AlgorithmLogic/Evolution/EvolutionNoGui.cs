@@ -43,7 +43,7 @@ public class EvolutionNoGui : IEvolutionAlgorithm
             iterationsSurvived++;
         }
         
-        _logger.LogProgress(GenerateStringMessage(population, number, iterationsSurvived));
+        _logger.LogProgress(population, number, iterationsSurvived);
         var newPopulation = _breeder.BreedPopulation(population, _geneFactory);
 
         return newPopulation;

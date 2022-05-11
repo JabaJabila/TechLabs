@@ -52,14 +52,9 @@ public class EvolutionAlgorithmGui : IEvolutionAlgorithm
             iterationsSurvived++;
         }
         
-        _logger.LogProgress(GenerateStringMessage(population, number, iterationsSurvived));
+        _logger.LogProgress(population, number, iterationsSurvived);
         var newPopulation = _breeder.BreedPopulation(population, _geneFactory);
 
         return newPopulation;
-    }
-
-    private static string GenerateStringMessage(Population population, int generation, int iterations)
-    {
-        return $"Generation #{generation}: iterations survived: {iterations}\n{population.GenerationInfo()}";
     }
 }

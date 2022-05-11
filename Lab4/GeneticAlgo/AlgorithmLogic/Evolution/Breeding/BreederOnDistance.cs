@@ -78,8 +78,8 @@ public class BreederOnDistance : IBreeder
             var genotypeSeparator = Random.Next(0, countGenes);
             var currentGenePosition = genotypeSeparator;
             var newGenotype = new IGene[countGenes];
-            var genotype1 = creature1.Chromosome.Genotype.ToArray();
-            var genotype2 = creature2.Chromosome.Genotype.ToArray();
+            var genotype1 = creature1.Chromosome.Genotype;
+            var genotype2 = creature2.Chromosome.Genotype;
             var firstHalf = (currentGenePosition + countGenes / 2) % countGenes;
 
             while (currentGenePosition != firstHalf)
