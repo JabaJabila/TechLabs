@@ -37,8 +37,6 @@ public class Population
     }
 
     public IReadOnlyCollection<Creature> AllCreatures => _creatures;
-    
-    public IReadOnlyCollection<Creature> AliveCreatures => _creatures.Where(c => c.IsAlive).ToList();
 
-    public bool IsInBreedZone => AliveCreatures.Count <= _configuration.PopulationBreedZone;
+    public bool IsInBreedZone => AllCreatures.Count(c => c.IsAlive) <= _configuration.PopulationBreedZone;
 }

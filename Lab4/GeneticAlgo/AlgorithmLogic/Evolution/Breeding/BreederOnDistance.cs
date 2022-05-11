@@ -35,9 +35,6 @@ public class BreederOnDistance : IBreeder
         ArgumentNullException.ThrowIfNull(population, nameof(population));
         ArgumentNullException.ThrowIfNull(geneFactory, nameof(geneFactory));
 
-        if (population.AliveCreatures.Count == 0) 
-            throw new GeneticAlgoException("Impossible to breed. No creatures alive");
-        
         if (!population.IsInBreedZone) throw new GeneticAlgoException("Population is not ready for breeding");
 
         var newGeneration = new List<Creature>();
@@ -106,7 +103,7 @@ public class BreederOnDistance : IBreeder
     private List<(Creature, Creature)> GetFertilePairs(Population population, out List<Creature> lonely)
     {
         lonely = new List<Creature>();
-        var remain = population.AliveCreatures.ToList();
+        var remain = population.AllCreatures.Where(c => c.IsAlive).ToList();
         var pairs = new List<(Creature, Creature)>();
         
         while (remain.Count > 1)

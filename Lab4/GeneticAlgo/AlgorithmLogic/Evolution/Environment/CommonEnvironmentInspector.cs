@@ -37,8 +37,9 @@ public class CommonEnvironmentInspector : IEnvironmentInspector
     {
         ArgumentNullException.ThrowIfNull(population, nameof(population));
         
-        foreach (var creature in population.AliveCreatures)
+        foreach (var creature in population.AllCreatures)
         {
+            if (!creature.IsAlive) continue;
             creature.MakeMove();
             HandleMove(creature);
             if (population.IsInBreedZone) break;
