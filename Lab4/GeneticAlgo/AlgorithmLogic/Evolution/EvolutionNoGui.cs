@@ -22,7 +22,7 @@ public class EvolutionNoGui : IEvolutionAlgorithm
         _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         _breeder = new BreederOnDistance(configuration, configuration, new RandomMutator());
-        _geneFactory = new GeneCreator();
+        _geneFactory = new GenePool();
         _environmentInspector = new CommonEnvironmentInspector(configuration);
         Location.SetConfiguration(configuration);
     }

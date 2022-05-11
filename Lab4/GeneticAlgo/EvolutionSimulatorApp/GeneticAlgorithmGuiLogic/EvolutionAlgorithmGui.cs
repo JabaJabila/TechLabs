@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Controls;
+using AlgorithmLogic;
 using AlgorithmLogic.Configuration;
 using AlgorithmLogic.Evolution;
 using AlgorithmLogic.Evolution.Breeding;
@@ -30,7 +31,7 @@ public class EvolutionAlgorithmGui : IEvolutionAlgorithm
         _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         _breeder = new BreederOnDistance(configuration, configuration, new RandomMutator());
-        _geneFactory = new GeneCreator();
+        _geneFactory = new GenePool();
         _environmentInspector = new EnvironmentInspectorWrapper(configuration, drawer);
         Location.SetConfiguration(configuration);
     }
