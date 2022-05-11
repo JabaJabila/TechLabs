@@ -36,16 +36,14 @@ public class ListMapInspector : IMapInspector
         
         var x = Random.Next(0, _configuration.MapWidth);
         var y = Random.Next(0, _configuration.MapHeight);
-        var freeLocation = new Location(x, y);
 
-        while (_entities.Select(e => e.Location).Contains(freeLocation))
+        while (_entities.Any(e => e is CreatureEntity c && c.Location.X == x && c.Location.Y == y))
         {
             x = Random.Next(0, _configuration.MapWidth);
             y = Random.Next(0, _configuration.MapHeight);
-            freeLocation = new Location(x, y);
         }
 
-        return freeLocation;
+        return new Location(x, y);
     }
     
     public IMapEntity? GetEntityFromMap(Location location)
