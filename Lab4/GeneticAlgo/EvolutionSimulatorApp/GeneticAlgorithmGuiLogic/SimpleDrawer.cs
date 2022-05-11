@@ -56,7 +56,7 @@ public class SimpleDrawer : IDrawer
             }
         }
         
-        PrintPixels(_pixels);
+        WritePixelsToBitmap(_pixels);
     }
 
     private void DrawEmptyFiled()
@@ -93,7 +93,7 @@ public class SimpleDrawer : IDrawer
         _pixels[entity.Location.Y, entity.Location.X, 2] = 102;
     }
     
-    private byte[] TransformTo1D(byte[,,] pixels)
+    private byte[] TransformPixelsTo1D(byte[,,] pixels)
     {
         var pixels1D = new byte[_configuration.MapHeight * _configuration.MapWidth * 4];
 
@@ -106,9 +106,9 @@ public class SimpleDrawer : IDrawer
         return pixels1D;
     }
 
-    private void PrintPixels(byte[,,] pixels)
+    private void WritePixelsToBitmap(byte[,,] pixels)
     {
-        var pixels1D = TransformTo1D(pixels);
+        var pixels1D = TransformPixelsTo1D(pixels);
         var rect = new Int32Rect(0, 0, _configuration.MapWidth, _configuration.MapHeight);
         var stride = 4 * _configuration.MapWidth;
 
