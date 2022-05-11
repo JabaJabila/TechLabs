@@ -8,7 +8,7 @@ namespace AlgorithmLogic.Genes.PassiveGenes;
 
 public class UnconditionalTransitionGene : IGene
 {
-    private const int TransitionFactor = 5;
+    private const int TransitionFactor = 8;
     private const int MaxStep = 8;
     private readonly int _step;
     

@@ -18,5 +18,6 @@ public class WalkingGene : ActiveGene
         creature.Health -= EnergyCost;
         var (x, y) = MovePositions[SubCode];
         creature.Move = new Move(creature.Location.MoveOn(x, y), Action.Walk);
+        creature.Chromosome.CurrentGenePosition++;
     }
 }
