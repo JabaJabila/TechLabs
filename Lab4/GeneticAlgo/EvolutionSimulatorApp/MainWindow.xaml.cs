@@ -12,8 +12,8 @@ namespace EvolutionSimulatorApp
     public partial class MainWindow
     {
         private readonly IEvolutionAlgorithm _algorithm;
-        private const int UpdateScreenAfterGenerationWaitMs = 1000;
-        private const int UpdateScreenAfterIterationWaitMs = 100;
+        private const int UpdateScreenAfterGenerationWaitMs = 100;
+        private const int UpdateScreenAfterIterationWaitMs = 10;
         private int _generationNumber;
         private Population _currentPopulation;
         
