@@ -20,7 +20,7 @@ namespace EvolutionSimulatorApp
         public MainWindow()
         {
             var reader = new JsonConfigReader();
-            IConfiguration configuration = reader.ReadFromJsonFile(@"D:\TechLabs\genalgo_cfg.json");
+            IConfiguration configuration = reader.ReadFromJsonFile(@"D:\TechLabs\Lab4\genalgo_cfg.json");
             var logger = new ConsoleLogger();
 
             InitializeComponent();

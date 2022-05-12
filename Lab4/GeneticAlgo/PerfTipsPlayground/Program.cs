@@ -4,7 +4,7 @@ using AlgorithmLogic.Tools.Loggers;
 
 
 var reader = new JsonConfigReader();
-var cfg = reader.ReadFromJsonFile(@"D:\TechLabs\genalgo_cfg.json");
+var cfg = reader.ReadFromJsonFile(@"D:\TechLabs\Lab4\genalgo_cfg.json");
 var test = new EvolutionNoGui(cfg, new EmptyLogger());
 
 var population = test.GenerateStarterPopulation();
