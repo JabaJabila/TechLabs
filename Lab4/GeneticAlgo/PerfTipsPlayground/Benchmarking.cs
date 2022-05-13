@@ -22,7 +22,7 @@ public class Benchmarking
     public void Setup()
     {
         var reader = new JsonConfigReader();
-        var cfg = reader.ReadFromJsonFile(@"D:\TechLabs\genalgo_cfg.json");
+        var cfg = reader.ReadFromJsonFile(@"D:\TechLabs\Lab4\genalgo_cfg.json");
         _algorithm = new EvolutionNoGui(cfg, new EmptyLogger());
     }
 

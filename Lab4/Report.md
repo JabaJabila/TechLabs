@@ -237,11 +237,11 @@ public class GenePool : IGeneFactory
 
 Заметны улучшения по аллокациям.
 
-Также заметил что лишние аллокации приходятся на метод Contains у класса Location у метода GetFreeLocaion(). Перепишем его.
+Также заметил что лишние аллокации приходятся на lamda-выражения у методов у класса Location у метода GetFreeLocaion(). Перепишем его.
 Также уберём логирование прогресса на консоль.
 
 ```cs
-public Location GetFreeLocation()
+    public Location GetFreeLocation()
     {
         if (_entities.Count >= _totalSpace * MaxPlaceAvailable)
             throw new GeneticAlgoException("Too few free space available on map");
@@ -259,12 +259,17 @@ public Location GetFreeLocation()
 
         return freeLocation;
     }
+
+    public IMapEntity? GetEntityFromMap(Location location)
+    {
+        return _entities.FirstOrDefault(e => e.Location.Equals(location));
+    }
 ```
 
 Заменим на:
 
 ```cs
-public Location GetFreeLocation()
+    public Location GetFreeLocation()
     {
         if (_entities.Count >= _totalSpace * MaxPlaceAvailable)
             throw new GeneticAlgoException("Too few free space available on map");
@@ -272,13 +277,35 @@ public Location GetFreeLocation()
         var x = Random.Next(0, _configuration.MapWidth);
         var y = Random.Next(0, _configuration.MapHeight);
 
-        while (_entities.Any(e => e is CreatureEntity c && c.Location.X == x && c.Location.Y == y))
+        while (IsFreeLocation(x, y))
         {
             x = Random.Next(0, _configuration.MapWidth);
             y = Random.Next(0, _configuration.MapHeight);
         }
 
         return new Location(x, y);
+    }
+
+    private bool IsFreeLocation(int x, int y)
+    {
+        foreach (var mapEntity in _entities)
+        {
+            if (mapEntity.Location.X == x && mapEntity.Location.Y == y)
+                return true;
+        }
+
+        return false;
+    }
+
+    public IMapEntity? GetEntityFromMap(Location location)
+    {
+        foreach (var mapEntity in _entities)
+        {
+            if (mapEntity.Location.Equals(location))
+                return mapEntity;
+        }
+
+        return null;
     }
 ```
 
@@ -288,15 +315,16 @@ public Location GetFreeLocation()
 | RunGenerations (less linq) |          10 | 1.449 s | 0.1516 s | 0.4471 s | 1000.0000 |     10 MB |
 | RunGenerations (GenePool) |          10 | 1.457 s | 0.1613 s | 0.4731 s | 2000.0000 |     10 MB |
 | RunGenerations (less ToArray()) |          10 | 1.093 s | 0.0217 s | 0.0503 s | 1000.0000 |      7 MB |
-| RunGenerations (no logging + no contains) |          10 | 753.9 ms | 16.71 ms | 47.42 ms | 2000.0000 |      8 MB |
+| RunGenerations (no logging + no lamda) |          10 | 305.7 ms | 7.67 ms | 22.38 ms ||      4 MB |
+
 
 ![final trace](pictures/6trace_allocations.jpg)
 ![final trace time](pictures/6trace_time.jpg)
-![](pictures/6memory_all.jpg)
-![](pictures/6memory_top.jpg)
+![final memory plot](pictures/6memory_all.jpg)
+![final memory top](pictures/6memory_top.jpg)
 
 ### Итоги
 
-Проведя ряд оптимизаций (как удачных, так и нет) удалось улучшить производительность: увеличить скорость работы с 184 секунд до 20-50 секунд, уменьшить аллокации с 1189 Мб до 40-90 Мб для обучения 100 поколений со 100 существами на карте 64 на 64. Плавающие значения результатов обусловлены рандомом (обучение при каждом новом запуске идет по разному, и если повезло, существа за 100 операций обучатся сильнее и будут жить больше итераций).
+Проведя ряд оптимизаций (как удачных, так и нет) удалось улучшить производительность: увеличить скорость работы с 184 секунд до 20-80 секунд, уменьшить аллокации с 1189 Мб до 15-80 Мб для обучения 100 поколений со 100 существами на карте 64 на 64. Плавающие значения результатов обусловлены рандомом (обучение при каждом новом запуске идет по разному, и если повезло, существа за 100 операций обучатся сильнее и будут жить больше итераций).
 
 Конечно же есть еще небольшие моменты, где можно немного улучшить результаты, но основные проблемы производительности уже решены.

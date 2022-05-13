@@ -37,7 +37,7 @@ public class ListMapInspector : IMapInspector
         var x = Random.Next(0, _configuration.MapWidth);
         var y = Random.Next(0, _configuration.MapHeight);
 
-        while (_entities.Any(e => e is CreatureEntity c && c.Location.X == x && c.Location.Y == y))
+        while (IsFreeLocation(x, y))
         {
             x = Random.Next(0, _configuration.MapWidth);
             y = Random.Next(0, _configuration.MapHeight);
@@ -45,10 +45,27 @@ public class ListMapInspector : IMapInspector
 
         return new Location(x, y);
     }
-    
+
+    private bool IsFreeLocation(int x, int y)
+    {
+        foreach (var mapEntity in _entities)
+        {
+            if (mapEntity.Location.X == x && mapEntity.Location.Y == y)
+                return true;
+        }
+
+        return false;
+    }
+
     public IMapEntity? GetEntityFromMap(Location location)
     {
-        return _entities.FirstOrDefault(e => e.Location.Equals(location));
+        foreach (var mapEntity in _entities)
+        {
+            if (mapEntity.Location.Equals(location))
+                return mapEntity;
+        }
+
+        return null;
     }
 
     public void DeleteEntityFromMap(Location location)
